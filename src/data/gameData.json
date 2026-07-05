@@ -842,6 +842,198 @@
           "bio": "שלום! אני נדיה קומנץ'. כשהייתי רק בת 14, הפכתי למתעמלת הראשונה בהיסטוריה האולימפית שקיבלה ציון 10 מושלם! לוח התוצאות אפילו לא הצליח להציג את הציון שלי — הוא לא נבנה בשביל שלמות!"
         }
       }
+    },
+    {
+      "id": "ruth",
+      "category": "athletes",
+      "gender": "male",
+      "emoji": "⚾",
+      "languages": {
+        "en": {
+          "name": "Babe Ruth",
+          "bio": "Hey kid! I am Babe Ruth, the Bambino of baseball! I once pointed to the stands before hitting a home run right where I pointed. Big swings start with big belief!"
+        },
+        "he": {
+          "name": "בייב רות'",
+          "bio": "היי ילד! אני בייב רות', ה'תינוק' של הבייסבול! פעם הצבעתי על היציע לפני שהיכיתי הום ראן בדיוק למקום שהצבעתי אליו. מכות גדולות מתחילות באמונה גדולה!"
+        }
+      }
+    },
+    {
+      "id": "robinson",
+      "category": "athletes",
+      "gender": "male",
+      "emoji": "🧢",
+      "languages": {
+        "en": {
+          "name": "Jackie Robinson",
+          "bio": "Hello! I am Jackie Robinson. I was the first Black player in Major League Baseball, and I faced unfair treatment with quiet courage and incredible skill. I proved that talent has no color."
+        },
+        "he": {
+          "name": "ג'קי רובינסון",
+          "bio": "שלום! אני ג'קי רובינסון. הייתי השחקן השחור הראשון בליגת הבייסבול הגדולה, ועמדתי מול יחס לא הוגן באומץ שקט ובכישרון מדהים. הוכחתי שלכישרון אין צבע."
+        }
+      }
+    },
+    {
+      "id": "gretzky",
+      "category": "athletes",
+      "gender": "male",
+      "emoji": "🏒",
+      "languages": {
+        "en": {
+          "name": "Wayne Gretzky",
+          "bio": "Hi there! I am Wayne Gretzky, they call me 'The Great One' on the ice! I always skated to where the puck was going to be, not where it had been. Thinking ahead is its own kind of speed!"
+        },
+        "he": {
+          "name": "ויין גרצקי",
+          "bio": "היי! אני ויין גרצקי, קוראים לי 'הגדול' על הקרח! תמיד החלקתי למקום שאליו הדיסקית עמדה להגיע, לא למקום שבו הייתה. לחשוב קדימה זה סוג של מהירות בפני עצמו!"
+        }
+      }
+    },
+    {
+      "id": "phelps",
+      "category": "athletes",
+      "gender": "male",
+      "emoji": "🏊",
+      "languages": {
+        "en": {
+          "name": "Michael Phelps",
+          "bio": "Hello! I am Michael Phelps. I have won more Olympic medals than any athlete in history — 28 in total! I trained almost every single day for years, because champions are built one lap at a time."
+        },
+        "he": {
+          "name": "מייקל פלפס",
+          "bio": "שלום! אני מייקל פלפס. זכיתי ביותר מדליות אולימפיות מכל ספורטאי בהיסטוריה — 28 בסך הכל! התאמנתי כמעט כל יום במשך שנים, כי אלופים נבנים בריכה אחת בכל פעם."
+        }
+      }
+    },
+    {
+      "id": "federer",
+      "category": "athletes",
+      "gender": "male",
+      "emoji": "🏆",
+      "languages": {
+        "en": {
+          "name": "Roger Federer",
+          "bio": "Hello! I am Roger Federer. I played tennis with such grace that people called it poetry in motion. I lost plenty of matches too — what mattered was standing back up with a smile every time."
+        },
+        "he": {
+          "name": "רוג'ר פדרר",
+          "bio": "שלום! אני רוג'ר פדרר. שיחקתי טניס בכזאת חן שאנשים כינו את זה שירה בתנועה. גם הפסדתי לא מעט משחקים — מה שחשוב זה לקום שוב עם חיוך בכל פעם."
+        }
+      }
+    },
+    {
+      "id": "kipchoge",
+      "category": "athletes",
+      "gender": "male",
+      "emoji": "🏁",
+      "languages": {
+        "en": {
+          "name": "Eliud Kipchoge",
+          "bio": "Jambo! I am Eliud Kipchoge. I was the first human to run a marathon — 26.2 miles — in under two hours! I believe no human is limited, so keep running toward your own impossible dream."
+        },
+        "he": {
+          "name": "אליוד קיפצ'וגה",
+          "bio": "ג'מבו! אני אליוד קיפצ'וגה. הייתי בן האדם הראשון שרץ מרתון — 42 קילומטרים — בפחות משעתיים! אני מאמין שאף בן אדם אינו מוגבל, אז המשיכו לרוץ לעבר החלום הבלתי אפשרי שלכם."
+        }
+      }
+    },
+    {
+      "id": "rudolph",
+      "category": "athletes",
+      "gender": "female",
+      "emoji": "👟",
+      "languages": {
+        "en": {
+          "name": "Wilma Rudolph",
+          "bio": "Hello! I am Wilma Rudolph. As a little girl, I couldn't even walk without leg braces because of polio. I worked and worked until I could run — and I became the fastest woman in the world, winning three Olympic gold medals!"
+        },
+        "he": {
+          "name": "וילמה רודולף",
+          "bio": "שלום! אני וילמה רודולף. כשהייתי ילדה קטנה, אפילו לא יכולתי ללכת בלי סד לרגל בגלל מחלת הפוליו. התאמנתי ועבדתי עד שיכולתי לרוץ — והפכתי לאישה המהירה בעולם, וזכיתי בשלוש מדליות זהב אולימפיות!"
+        }
+      }
+    },
+    {
+      "id": "didrikson",
+      "category": "athletes",
+      "gender": "female",
+      "emoji": "🏹",
+      "languages": {
+        "en": {
+          "name": "Babe Didrikson Zaharias",
+          "bio": "Hi! I am Babe Didrikson Zaharias. I played basketball, baseball, track, and golf — and I was a champion at nearly all of them! I always said, the good Lord gave me a body, and it's my job to use it right."
+        },
+        "he": {
+          "name": "בייב דידריקסון זהריאס",
+          "bio": "היי! אני בייב דידריקסון זהריאס. שיחקתי כדורסל, בייסבול, אתלטיקה וגולף — והייתי אלופה כמעט בכולם! תמיד אמרתי, אלוהים נתן לי גוף, והתפקיד שלי הוא להשתמש בו נכון."
+        }
+      }
+    },
+    {
+      "id": "king",
+      "category": "athletes",
+      "gender": "female",
+      "emoji": "💪",
+      "languages": {
+        "en": {
+          "name": "Billie Jean King",
+          "bio": "Hello! I am Billie Jean King. I won a famous tennis match called the 'Battle of the Sexes' to prove women athletes deserved just as much respect as men. Pressure is a privilege — it means you get to go for it!"
+        },
+        "he": {
+          "name": "בילי ג'ין קינג",
+          "bio": "שלום! אני בילי ג'ין קינג. ניצחתי במשחק טניס מפורסם שנקרא 'קרב המינים' כדי להוכיח שספורטאיות ראויות לאותו כבוד כמו גברים. לחץ הוא זכות — הוא אומר שיש לך הזדמנות לנסות!"
+        }
+      }
+    },
+    {
+      "id": "ledecky",
+      "category": "athletes",
+      "gender": "female",
+      "emoji": "🌊",
+      "languages": {
+        "en": {
+          "name": "Katie Ledecky",
+          "bio": "Hi! I am Katie Ledecky. I swim so far ahead of everyone else that people call my races a 'Ledecky lap'. I love pushing past my own limits every single time I dive into the pool!"
+        },
+        "he": {
+          "name": "קייטי לדצקי",
+          "bio": "היי! אני קייטי לדצקי. אני שוחה כל כך רחוק מכולם שאנשים קוראים למרוצים שלי 'הקפת לדצקי'. אני אוהבת לפרוץ את הגבולות שלי בכל פעם שאני קופצת לבריכה!"
+        }
+      }
+    },
+    {
+      "id": "hamilton",
+      "category": "athletes",
+      "gender": "female",
+      "emoji": "🏄",
+      "languages": {
+        "en": {
+          "name": "Bethany Hamilton",
+          "bio": "Aloha! I am Bethany Hamilton. I lost my arm in a shark attack while surfing as a teenager, but just one month later I was back on my board! I learned that you can't always choose what happens to you, but you can choose to keep going."
+        },
+        "he": {
+          "name": "בת'ני המילטון",
+          "bio": "אלוהה! אני בת'ני המילטון. איבדתי את זרועי בהתקפת כריש בזמן גלישה כשהייתי נערה, אבל כבר חודש אחר כך חזרתי לגלוש! למדתי שלא תמיד אפשר לבחור מה קורה לך, אבל תמיד אפשר לבחור להמשיך הלאה."
+        }
+      }
+    },
+    {
+      "id": "hamm",
+      "category": "athletes",
+      "gender": "female",
+      "emoji": "🥅",
+      "languages": {
+        "en": {
+          "name": "Mia Hamm",
+          "bio": "Hi! I am Mia Hamm. I helped make women's soccer famous everywhere, scored more international goals than almost anyone, and always said team success matters more than any single trophy."
+        },
+        "he": {
+          "name": "מיה האם",
+          "bio": "היי! אני מיה האם. עזרתי להפוך את כדורגל הנשים למפורסם בכל מקום, כבשתי יותר שערים בינלאומיים מכמעט כל אחד אחר, ותמיד אמרתי שהצלחת הקבוצה חשובה יותר מכל גביע בודד."
+        }
+      }
     }
   ]
 }

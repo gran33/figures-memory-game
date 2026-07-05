@@ -15,8 +15,8 @@ export default defineConfig({
         name: 'History Heroes — Memory Match',
         short_name: 'History Heroes',
         description: 'An educational memory match game where kids unlock historical heroes.',
-        theme_color: '#bfdbfe',
-        background_color: '#fffbf0',
+        theme_color: '#4c1d95',
+        background_color: '#4c1d95',
         display: 'standalone',
         orientation: 'portrait',
         icons: [

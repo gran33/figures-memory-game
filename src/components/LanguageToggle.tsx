@@ -8,17 +8,23 @@ export function LanguageToggle() {
   const setLanguage = useGameStore((s) => s.setLanguage);
 
   return (
-    <div className="flex gap-1 rounded-2xl bg-sky-100 p-1 shadow-inner" role="group" aria-label="Language">
+    <div
+      className="flex gap-1 rounded-2xl bg-grape-900/40 p-1.5 shadow-inner"
+      role="group"
+      aria-label="Language"
+    >
       {LANGUAGES.map((code) => {
         const active = code === language;
         return (
           <motion.button
             key={code}
-            whileTap={{ scale: 0.93 }}
+            whileTap={{ scale: 0.92 }}
             aria-pressed={active}
             onClick={() => setLanguage(code)}
-            className={`rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
-              active ? 'bg-white text-sky-700 shadow' : 'text-sky-500'
+            className={`rounded-xl px-5 py-2 text-base font-extrabold transition-colors ${
+              active
+                ? 'bg-amber-300 text-amber-950 shadow-[0_3px_0_#b45309]'
+                : 'text-white/70 hover:text-white'
             }`}
           >
             {gameData.languages[code].label}

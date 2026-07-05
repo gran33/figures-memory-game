@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
-const COLORS = ['#bae6fd', '#bbf7d0', '#fde68a', '#fbcfe8', '#ddd6fe', '#fed7aa'];
+const COLORS = ['#facc15', '#fb7185', '#4ade80', '#38bdf8', '#c084fc', '#fb923c'];
 
 /** Soft, dependency-free confetti rain for the victory celebration. */
 export function Confetti({ pieces = 40 }: { pieces?: number }) {

@@ -1,7 +1,29 @@
+@import "@fontsource-variable/fredoka/index.css";
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Baloo 2", "Comic Sans MS", "Varela Round", ui-rounded, system-ui, sans-serif;
+  --font-sans: "Fredoka Variable", "Varela Round", ui-rounded, system-ui, sans-serif;
+
+  /* game palette */
+  --color-grape-50: #f3efff;
+  --color-grape-400: #8b5cf6;
+  --color-grape-500: #7c3aed;
+  --color-grape-600: #6d28d9;
+  --color-grape-700: #5b21b6;
+  --color-grape-800: #4c1d95;
+  --color-grape-900: #3b0f7e;
+
+  --animate-pop: pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-float: float 3.2s ease-in-out infinite;
+
+  @keyframes pop {
+    0% { transform: scale(0.5); }
+    100% { transform: scale(1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-3deg); }
+    50% { transform: translateY(-12px) rotate(3deg); }
+  }
 }
 
 html,
@@ -11,5 +33,10 @@ body {
 }
 
 body {
-  background-color: #fff7ed; /* warm cream */
+  background-color: #4c1d95; /* deep grape — matches PWA theme */
+  font-variation-settings: "wght" 500;
+}
+
+h1, h2, h3, .font-black, .font-extrabold, .font-bold {
+  font-variation-settings: "wght" 640;
 }

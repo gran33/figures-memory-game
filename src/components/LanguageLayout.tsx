@@ -15,5 +15,5 @@ export function LanguageLayout({ children }: { children: ReactNode }) {
     document.documentElement.setAttribute('lang', language);
   }, [language]);
 
-  return <div className="min-h-dvh bg-orange-50 font-sans text-slate-700">{children}</div>;
+  return <div className="min-h-dvh bg-grape-800 font-sans text-white">{children}</div>;
 }

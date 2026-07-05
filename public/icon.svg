@@ -1,7 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="120" fill="#bfdbfe"/>
-  <rect x="96" y="116" width="150" height="180" rx="28" fill="#fffbf0" stroke="#93c5fd" stroke-width="10"/>
-  <rect x="266" y="216" width="150" height="180" rx="28" fill="#bbf7d0" stroke="#86efac" stroke-width="10"/>
-  <text x="171" y="230" font-size="90" text-anchor="middle">💡</text>
-  <text x="341" y="330" font-size="90" text-anchor="middle">⭐</text>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#4c1d95"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f0abfc"/>
+      <stop offset="1" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#bg)"/>
+  <rect x="88" y="108" width="160" height="200" rx="30" fill="url(#card)" stroke="#fff" stroke-width="12" transform="rotate(-8 168 208)"/>
+  <rect x="260" y="200" width="160" height="200" rx="30" fill="#fef3c7" stroke="#fbbf24" stroke-width="12" transform="rotate(7 340 300)"/>
+  <text x="168" y="240" font-size="96" text-anchor="middle" transform="rotate(-8 168 208)">⭐</text>
+  <text x="342" y="330" font-size="96" text-anchor="middle" transform="rotate(7 340 300)">💡</text>
 </svg>

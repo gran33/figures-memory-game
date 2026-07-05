@@ -26,6 +26,7 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
   const ui = getUi(language);
   const { cards, modalCharacter, isComplete, flipCard, closeModal } = useMemoryGame(level, shuffle);
   const celebrated = useRef(false);
+  const matchedPairs = cards.filter((c) => !c.isLogo && c.status === 'matched').length / 2;
 
   useEffect(() => {
     if (isComplete && !celebrated.current) {
@@ -36,27 +37,39 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
   }, [isComplete, completeLevel, levelId]);
 
   return (
-    <div className="flex h-dvh flex-col bg-orange-50 p-3">
+    <div className="flex h-dvh flex-col bg-gradient-to-b from-grape-700 via-grape-800 to-indigo-950 p-3">
       <header className="flex items-center justify-between pb-2">
         <button
           aria-label={ui.backToMap}
           onClick={() => navigate({ name: 'map' })}
-          className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-100 text-xl shadow-sm active:scale-95"
+          className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-xl shadow-[0_4px_0_rgba(0,0,0,0.3)] ring-2 ring-white/20 active:translate-y-0.5 active:scale-95"
         >
           🗺️
         </button>
         <div className="text-center">
-          <div className="text-sm font-semibold text-slate-400">
+          <div className="text-sm font-bold text-amber-300">
             {ui.stage} {level.stage}
           </div>
-          <div className="text-lg font-extrabold text-slate-600">
+          <div className="text-xl font-extrabold text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">
             {ui.level} {levelId} / {TOTAL_LEVELS}
           </div>
         </div>
-        <div className="w-11 text-center text-lg" aria-hidden="true">
-          {cards.filter((c) => !c.isLogo && c.status === 'matched').length / 2}/{level.pairs}
+        <div
+          className="flex h-12 min-w-12 items-center justify-center rounded-2xl bg-white/15 px-2 text-base font-extrabold text-amber-300 ring-2 ring-white/20"
+          aria-hidden="true"
+        >
+          {matchedPairs}/{level.pairs}
         </div>
       </header>
+
+      {/* progress bar */}
+      <div className="mx-auto mb-1 h-3 w-full max-w-sm overflow-hidden rounded-full bg-white/15">
+        <motion.div
+          className="h-full rounded-full bg-gradient-to-r from-lime-400 to-amber-300"
+          animate={{ width: `${(matchedPairs / level.pairs) * 100}%` }}
+          transition={{ type: 'spring', damping: 20 }}
+        />
+      </div>
 
       {/* The grid scales to always fit the viewport — no vertical scrolling. */}
       <main className="flex min-h-0 flex-1 items-center justify-center">
@@ -65,7 +78,7 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
           className="grid w-full gap-2"
           style={{
             gridTemplateColumns: `repeat(${level.cols}, minmax(0, 1fr))`,
-            maxWidth: `min(100%, calc((100dvh - 8.5rem) * ${level.cols} / ${level.rows}), 34rem)`,
+            maxWidth: `min(100%, calc((100dvh - 10rem) * ${level.cols} / ${level.rows}), 34rem)`,
           }}
         >
           {cards.map((card, index) => (
@@ -81,14 +94,14 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
             data-testid="celebration"
             initial={{ y: 80, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ type: 'spring', damping: 18 }}
-            className="z-30 flex flex-col items-center gap-1 rounded-3xl bg-green-100 p-4 text-center shadow-xl"
+            transition={{ type: 'spring', damping: 14 }}
+            className="z-30 flex flex-col items-center gap-1 rounded-3xl bg-gradient-to-r from-lime-400 via-amber-300 to-orange-400 p-4 text-center shadow-[0_8px_0_rgba(0,0,0,0.35)]"
           >
-            <div className="text-xl font-extrabold text-green-800">🎉 {ui.levelComplete}</div>
-            <p className="text-sm text-green-700">
+            <div className="text-2xl font-extrabold text-grape-900">🎉 {ui.levelComplete}</div>
+            <p className="text-sm font-bold text-grape-800">
               {ui.unlockedHeroes} · {ui.exploreHint}
             </p>
-            <Button variant="success" onClick={() => navigate({ name: 'map' })} className="mt-2">
+            <Button variant="pink" onClick={() => navigate({ name: 'map' })} className="mt-2">
               {ui.nextLevel} ⭐
             </Button>
           </motion.footer>

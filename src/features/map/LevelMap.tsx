@@ -4,7 +4,7 @@ import { useGameStore, currentLevelId, isLevelUnlocked } from '../../store/gameS
 import { getUi } from '../../i18n';
 import { MapNode, type NodeState } from './MapNode';
 
-/** Horizontal offsets (as % of half-width) forming a gentle winding path. */
+/** Horizontal offsets forming a gentle winding candy trail. */
 const WIGGLE = [0, 55, 80, 55, 0, -55, -80, -55];
 
 /**
@@ -29,26 +29,28 @@ export function LevelMap() {
   };
 
   return (
-    <div className="flex h-dvh flex-col bg-gradient-to-b from-sky-50 to-green-50">
-      <header className="z-10 flex items-center justify-between gap-2 bg-orange-50/90 p-4 shadow-sm backdrop-blur">
+    <div className="flex h-dvh flex-col bg-gradient-to-b from-indigo-950 via-grape-800 to-grape-600">
+      <header className="z-10 flex items-center justify-between gap-2 bg-grape-900/80 p-4 shadow-lg backdrop-blur">
         <button
           aria-label={ui.appTitle}
           onClick={() => navigate({ name: 'menu' })}
-          className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-100 text-xl shadow-sm active:scale-95"
+          className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-xl ring-2 ring-white/20 active:scale-95"
         >
           🏠
         </button>
-        <h1 className="text-xl font-extrabold text-slate-700">🗺️ {ui.appTitle}</h1>
+        <h1 className="text-xl font-extrabold text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">
+          🗺️ {ui.appTitle}
+        </h1>
         <button
           onClick={() => navigate({ name: 'album' })}
-          className="flex h-11 items-center gap-1 rounded-2xl bg-amber-100 px-3 text-sm font-bold text-amber-900 shadow-sm active:scale-95"
+          className="flex h-12 items-center gap-1 rounded-2xl bg-amber-300 px-3 text-sm font-extrabold text-amber-950 shadow-[0_4px_0_#b45309] active:translate-y-0.5 active:shadow-none"
         >
           📔 {ui.stickerAlbum}
         </button>
       </header>
 
-      <div className="min-h-0 flex-1 overflow-y-auto py-8" data-testid="level-map">
-        <div className="mx-auto flex w-56 flex-col-reverse items-center gap-7">
+      <div className="min-h-0 flex-1 overflow-y-auto py-10" data-testid="level-map">
+        <div className="mx-auto flex w-56 flex-col-reverse items-center gap-8">
           {LEVELS.map((level, i) => {
             const state = nodeState(level.id);
             const prev = LEVELS[i - 1];
@@ -60,8 +62,8 @@ export function LevelMap() {
                 style={{ transform: `translateX(${WIGGLE[i % WIGGLE.length] * 0.5}px)` }}
               >
                 {(!prev || prev.stage !== level.stage) && (
-                  <div className="mb-4 rounded-full bg-white/80 px-4 py-1 text-xs font-bold text-slate-400 shadow-sm">
-                    {ui.stage} {level.stage} · {level.rows}×{level.cols}
+                  <div className="mb-5 rounded-full bg-white/15 px-4 py-1 text-xs font-extrabold tracking-wider text-amber-300 ring-2 ring-white/10">
+                    ✦ {ui.stage} {level.stage} · {level.rows}×{level.cols} ✦
                   </div>
                 )}
                 <MapNode

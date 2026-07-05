@@ -2,7 +2,7 @@ import type { Character, Language } from '../types';
 import { gameData } from '../i18n';
 
 let activeAudio: HTMLAudioElement | null = null;
-let speakTimer: ReturnType<typeof setTimeout> | undefined;
+let watchdogTimer: ReturnType<typeof setTimeout> | undefined;
 // Chrome garbage-collects in-flight utterances that lose their last reference,
 // which silently stops playback — keep the active one referenced.
 let activeUtterance: SpeechSynthesisUtterance | null = null;
@@ -16,34 +16,59 @@ if (typeof window !== 'undefined' && window.speechSynthesis) {
   });
 }
 
+/** Best voice for a BCP-47 tag: exact match first, then language prefix; prefer local voices (Chrome's remote ones cut long text off). */
+function pickVoice(synth: SpeechSynthesis, speechLang: string): SpeechSynthesisVoice | undefined {
+  const norm = (l: string) => l.replace('_', '-').toLowerCase();
+  const target = norm(speechLang);
+  const prefix = target.split('-')[0];
+  const candidates = synth
+    .getVoices()
+    .filter((v) => norm(v.lang) === target || norm(v.lang).startsWith(prefix));
+  return (
+    candidates.find((v) => norm(v.lang) === target && v.localService) ??
+    candidates.find((v) => norm(v.lang) === target) ??
+    candidates.find((v) => v.localService) ??
+    candidates[0]
+  );
+}
+
 function speakBio(character: Character, language: Language): void {
   const synth = window.speechSynthesis;
-  if (!synth) return;
+  if (!synth || typeof SpeechSynthesisUtterance === 'undefined') return;
   const locale = character.languages[language];
   const speechLang = gameData.languages[language].speechLang;
   const utterance = new SpeechSynthesisUtterance(`${locale.name}. ${locale.bio}`);
   utterance.lang = speechLang;
-  const langPrefix = speechLang.split('-')[0];
-  const voice = synth
-    .getVoices()
-    .find((v) => v.lang.replace('_', '-').toLowerCase().startsWith(langPrefix));
+  const voice = pickVoice(synth, speechLang);
   if (voice) utterance.voice = voice;
   utterance.rate = 0.95;
   utterance.onend = () => {
     if (activeUtterance === utterance) activeUtterance = null;
   };
   activeUtterance = utterance;
+
+  // speak synchronously so Safari still sees the user's tap (its first-ever
+  // utterance must start inside a gesture); resume() first because Chrome can
+  // be stuck in a paused state after a cancel(), which mutes queued speech
   synth.cancel();
-  // Chrome silently drops a speak() issued in the same tick as cancel() —
-  // defer it slightly so the queue is actually clear.
-  speakTimer = setTimeout(() => synth.speak(utterance), 80);
+  synth.resume();
+  synth.speak(utterance);
+
+  // Chrome watchdog: a speak() issued right after cancel() is occasionally
+  // dropped — if nothing is audible shortly after, kick it exactly once
+  watchdogTimer = setTimeout(() => {
+    if (activeUtterance === utterance && !synth.speaking) {
+      synth.resume();
+      synth.speak(utterance);
+    }
+  }, 400);
 }
 
 /**
  * Plays the character's localized voiceover file. If the mp3 asset is missing
- * (dev servers even answer with index.html, which fails audio decoding) the
- * narration gracefully falls back to speech synthesis reading the bio in the
- * active language — exactly once, no matter how many error signals fire.
+ * (dev servers even answer with index.html + 200, which fails audio decoding)
+ * the narration gracefully falls back to speech synthesis reading the bio in
+ * the active language — exactly once, no matter how many error signals fire.
  */
 export function playVoiceover(character: Character, language: Language): void {
   stopVoiceover();
@@ -64,7 +89,7 @@ export function playVoiceover(character: Character, language: Language): void {
 }
 
 export function stopVoiceover(): void {
-  clearTimeout(speakTimer);
+  clearTimeout(watchdogTimer);
   activeAudio?.pause();
   activeAudio = null;
   activeUtterance = null;

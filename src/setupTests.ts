@@ -37,15 +37,22 @@ if (!window.matchMedia) {
 window.HTMLMediaElement.prototype.play = vi.fn().mockResolvedValue(undefined);
 window.HTMLMediaElement.prototype.pause = vi.fn();
 
-// jsdom does not implement speechSynthesis
+// jsdom does not implement speechSynthesis — mock mimics the real state machine
+const speechSynthesisMock = {
+  speaking: false,
+  speak: vi.fn(() => {
+    speechSynthesisMock.speaking = true;
+  }),
+  cancel: vi.fn(() => {
+    speechSynthesisMock.speaking = false;
+  }),
+  resume: vi.fn(),
+  getVoices: vi.fn(() => []),
+  addEventListener: vi.fn(),
+};
 Object.defineProperty(window, 'speechSynthesis', {
   writable: true,
-  value: {
-    speak: vi.fn(),
-    cancel: vi.fn(),
-    getVoices: vi.fn(() => []),
-    addEventListener: vi.fn(),
-  },
+  value: speechSynthesisMock,
 });
 
 class MockUtterance {

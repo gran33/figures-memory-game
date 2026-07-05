@@ -39,4 +39,14 @@ describe('level progression map', () => {
     expect(gameData.characters.length).toBeGreaterThanOrEqual(maxPairs);
     expect(new Set(gameData.characters.map((c) => c.id)).size).toBe(gameData.characters.length);
   });
+
+  it('gives every character a gender so narration uses a fitting voice', () => {
+    for (const character of gameData.characters) {
+      expect(['male', 'female']).toContain(character.gender);
+    }
+    // spot-check known figures
+    expect(gameData.characters.find((c) => c.id === 'einstein')?.gender).toBe('male');
+    expect(gameData.characters.find((c) => c.id === 'curie')?.gender).toBe('female');
+    expect(gameData.characters.find((c) => c.id === 'golda')?.gender).toBe('female');
+  });
 });

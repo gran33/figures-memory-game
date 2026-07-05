@@ -13,9 +13,13 @@ export interface CharacterLocale {
   audioUrl: string;
 }
 
+export type Gender = 'male' | 'female';
+
 export interface Character {
   id: string;
   category: CategoryId;
+  /** Drives the narration voice so each hero speaks with a fitting voice. */
+  gender: Gender;
   emoji: string;
   languages: Record<Language, CharacterLocale>;
 }

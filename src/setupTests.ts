@@ -40,8 +40,25 @@ window.HTMLMediaElement.prototype.pause = vi.fn();
 // jsdom does not implement speechSynthesis
 Object.defineProperty(window, 'speechSynthesis', {
   writable: true,
-  value: { speak: vi.fn(), cancel: vi.fn(), getVoices: vi.fn(() => []) },
+  value: {
+    speak: vi.fn(),
+    cancel: vi.fn(),
+    getVoices: vi.fn(() => []),
+    addEventListener: vi.fn(),
+  },
 });
+
+class MockUtterance {
+  text: string;
+  lang = '';
+  rate = 1;
+  voice: unknown = null;
+  onend: (() => void) | null = null;
+  constructor(text?: string) {
+    this.text = text ?? '';
+  }
+}
+Object.defineProperty(window, 'SpeechSynthesisUtterance', { writable: true, value: MockUtterance });
 
 class MockAudio {
   src: string;

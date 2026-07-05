@@ -1,19 +1,6 @@
 import '@testing-library/jest-dom/vitest';
 import { vi } from 'vitest';
 
-// The on-device neural TTS models are far too heavy for jsdom — mock both
-// engines with instant fake waveforms. Tests can import these modules to
-// assert which voice/model was requested.
-vi.mock('kokoro-js', () => {
-  const generate = vi.fn(async () => ({ audio: new Float32Array(2400), sampling_rate: 24000 }));
-  const instance = { generate };
-  return { KokoroTTS: { from_pretrained: vi.fn(async () => instance) } };
-});
-vi.mock('@huggingface/transformers', () => {
-  const synthesize = vi.fn(async () => ({ audio: new Float32Array(1600), sampling_rate: 16000 }));
-  return { pipeline: vi.fn(async () => synthesize), env: {} };
-});
-
 // jsdom does not implement WebAudio — minimal functional mock; created buffer
 // sources are recorded on globalThis.__audioSources for assertions.
 class MockAudioContext {

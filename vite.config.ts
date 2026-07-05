@@ -28,26 +28,15 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         runtimeCaching: [
           {
-            // bundled Hebrew TTS model + any future local models
-            urlPattern: /\/models\//,
+            // narration clips are fetched lazily (~115KB each) and kept for offline replays
+            urlPattern: /\/audio\/.*\.mp3$/,
             handler: 'CacheFirst',
-            options: { cacheName: 'tts-models', expiration: { maxEntries: 20 } },
-          },
-          {
-            // Kokoro English TTS model downloaded from the HF hub on first use
-            urlPattern: /^https:\/\/(huggingface\.co|cdn-lfs.*\.(hf|huggingface)\.co)\/.*/,
-            handler: 'CacheFirst',
-            options: { cacheName: 'tts-models-remote', expiration: { maxEntries: 30 } },
+            options: { cacheName: 'narration-clips', expiration: { maxEntries: 200 } },
           },
         ],
       },
     }),
   ],
-  // onnxruntime-web (used by the on-device TTS) ships workers/wasm that break
-  // under Vite's dep pre-bundling — load these packages as-is instead
-  optimizeDeps: {
-    exclude: ['kokoro-js', '@huggingface/transformers', 'onnxruntime-web'],
-  },
   test: {
     environment: 'jsdom',
     globals: true,

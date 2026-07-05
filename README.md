@@ -58,6 +58,10 @@ text direction, share text, and narration all follow automatically.
 
 ### Voiceover audio
 
-Narration is synthesized on the fly with the browser's Web Speech API — each
-hero's localized first-person bio is read aloud in the `speechLang` voice of
-the active language, so no audio assets ship with the app.
+Each hero has a pre-generated warm, gender-matched neural narration clip at
+`public/audio/<lang>/<characterId>.mp3` (~115KB, fetched lazily and cached
+by the service worker for offline replays). After adding or editing
+characters, regenerate the clips with `npm run gen:audio` (free edge-tts
+voices; falls back to macOS `say` if edge-tts is not installed). If a clip
+ever fails to load, the game falls back to Web Speech so narration never
+goes silent.

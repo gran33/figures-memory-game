@@ -1,139 +1,59 @@
-import type { Character, Gender, Language } from '../types';
+import type { Character, Language } from '../types';
 import { gameData } from '../i18n';
 
 /**
- * Narration engine — warm neural voices generated fully on-device:
- *
- *  - English: Kokoro-82M (WASM) with gender-matched voices
- *  - Hebrew:  Facebook MMS Hebrew (transformers.js); single-speaker model,
- *             so gender is differentiated with a gentle pitch shift
- *
- * Models are downloaded once, cached by the browser, then work offline.
- * No per-utterance network requests. If the neural engine is unavailable
- * (very old browser, storage cleared mid-flight), narration falls back to
+ * Narration: each character has a pre-generated warm, gender-matched neural
+ * clip at /audio/<lang>/<id>.mp3 (~115KB, fetched lazily like an image and
+ * runtime-cached for offline replays). Regenerate clips with `npm run
+ * gen:audio`. If a clip is missing or fails to load, narration falls back to
  * the platform's Web Speech voices so it never goes silent.
  */
 
-const EN_MODEL = 'onnx-community/Kokoro-82M-v1.0-ONNX';
-/** Shipped with the app in public/models/ (converted from facebook/mms-tts-heb). */
-const HE_MODEL = 'mms-tts-heb';
-const EN_VOICES = { male: 'am_michael', female: 'af_heart' } as const;
-/** MMS Hebrew is single-speaker; shift pitch slightly per gender. */
-const HE_PLAYBACK_RATE: Record<Gender, number> = { male: 0.95, female: 1.12 };
-
-interface GeneratedAudio {
-  audio: Float32Array;
-  sampling_rate: number;
-}
+const clipUrl = (character: Character, language: Language) =>
+  `/audio/${language}/${character.id}.mp3`;
 
 /** Increments on every play/stop; async work checks it before touching audio. */
 let session = 0;
-let activeSource: AudioBufferSourceNode | null = null;
+let activeAudio: HTMLAudioElement | null = null;
 let activeUtterance: SpeechSynthesisUtterance | null = null;
 let watchdogTimer: ReturnType<typeof setTimeout> | undefined;
 
-let audioCtx: AudioContext | null = null;
-function getCtx(): AudioContext | null {
-  const Ctor =
-    window.AudioContext ??
-    (window as never as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-  if (!Ctor) return null;
-  audioCtx ??= new Ctor();
-  // resume synchronously while we are still inside the user's tap
-  if (audioCtx.state === 'suspended') void audioCtx.resume();
-  return audioCtx;
-}
-
-interface EnglishEngine {
-  generate: (
-    text: string,
-    opts: { voice: (typeof EN_VOICES)[Gender] },
-  ) => Promise<GeneratedAudio>;
-}
-type HebrewEngine = (text: string) => Promise<GeneratedAudio>;
-
-let englishEngine: Promise<EnglishEngine> | null = null;
-let hebrewEngine: Promise<HebrewEngine> | null = null;
-
-function loadEnglishEngine(): Promise<EnglishEngine> {
-  if (englishEngine) return englishEngine;
-  const created: Promise<EnglishEngine> = import('kokoro-js')
-    .then(({ KokoroTTS }) => KokoroTTS.from_pretrained(EN_MODEL, { dtype: 'q8', device: 'wasm' }))
-    .catch((err) => {
-      englishEngine = null; // allow retry (e.g. flaky first download)
-      throw err;
-    });
-  englishEngine = created;
-  return created;
-}
-
-function loadHebrewEngine(): Promise<HebrewEngine> {
-  if (hebrewEngine) return hebrewEngine;
-  const created: Promise<HebrewEngine> = import('@huggingface/transformers')
-    .then(({ pipeline, env }) => {
-      // the Hebrew model is bundled as a static asset — no remote fetches
-      env.allowLocalModels = true;
-      env.localModelPath = '/models/';
-      return pipeline('text-to-speech', HE_MODEL, { dtype: 'q8' });
-    })
-    .then((synth) => (text: string) => synth(text) as Promise<GeneratedAudio>)
-    .catch((err) => {
-      hebrewEngine = null;
-      throw err;
-    });
-  hebrewEngine = created;
-  return created;
-}
-
-/** Kick off the model download early (e.g. when a level starts) so the first
- *  match modal doesn't wait for it. Errors are ignored — playback retries. */
-export function warmVoices(language: Language): void {
-  const load = language === 'he' ? loadHebrewEngine : loadEnglishEngine;
-  load().catch(() => {});
-}
-
-function playWave(data: Float32Array, samplingRate: number, playbackRate: number): void {
-  const ctx = getCtx();
-  if (!ctx) return;
-  const buffer = ctx.createBuffer(1, data.length, samplingRate);
-  buffer.copyToChannel(Float32Array.from(data), 0);
-  const source = ctx.createBufferSource();
-  source.buffer = buffer;
-  source.playbackRate.value = playbackRate;
-  source.connect(ctx.destination);
-  source.start();
-  source.onended = () => {
-    if (activeSource === source) activeSource = null;
-  };
-  activeSource = source;
-}
+/** Once a clip fails it is remembered, so every later tap can speak
+ *  synchronously inside the user gesture (required by Safari). */
+const brokenClips = new Set<string>();
 
 /**
  * Narrates the character's localized first-person bio. Resolves when playback
  * has started (or the fallback was dispatched), so callers can show a spinner
- * while the voice is being prepared.
+ * while the clip loads.
  */
 export async function playVoiceover(character: Character, language: Language): Promise<void> {
   const mySession = ++session;
   haltPlayback();
-  getCtx(); // resume the AudioContext while still inside the tap
-  const locale = character.languages[language];
-  const text = `${locale.name}. ${locale.bio}`;
+  const url = clipUrl(character, language);
 
+  if (brokenClips.has(url)) {
+    speakWithWebSpeech(character, language); // synchronous — still inside the tap
+    return;
+  }
+
+  const audio = new Audio(url);
+  activeAudio = audio;
+
+  // a broken source fires BOTH the error event and the play() rejection —
+  // collapse them into a single fallback
+  let fellBack = false;
+  const fallback = () => {
+    if (fellBack || session !== mySession) return;
+    fellBack = true;
+    brokenClips.add(url);
+    speakWithWebSpeech(character, language);
+  };
+  audio.onerror = fallback;
   try {
-    if (language === 'he') {
-      const synthesize = await loadHebrewEngine();
-      const wave = await synthesize(text);
-      if (session !== mySession) return; // user closed / replayed meanwhile
-      playWave(wave.audio, wave.sampling_rate, HE_PLAYBACK_RATE[character.gender]);
-    } else {
-      const engine = await loadEnglishEngine();
-      const wave = await engine.generate(text, { voice: EN_VOICES[character.gender] });
-      if (session !== mySession) return;
-      playWave(wave.audio, wave.sampling_rate, 1);
-    }
+    await audio.play?.();
   } catch {
-    if (session === mySession) speakWithWebSpeech(character, language);
+    fallback();
   }
 }
 
@@ -144,18 +64,14 @@ export function stopVoiceover(): void {
 
 function haltPlayback(): void {
   clearTimeout(watchdogTimer);
-  try {
-    activeSource?.stop();
-  } catch {
-    // already stopped
-  }
-  activeSource = null;
+  activeAudio?.pause();
+  activeAudio = null;
   activeUtterance = null;
   window.speechSynthesis?.cancel();
 }
 
 // ---------------------------------------------------------------------------
-// Web Speech fallback (platform voices) — only used if the neural engine fails
+// Web Speech fallback (platform voices) — only used if a clip fails to load
 // ---------------------------------------------------------------------------
 
 function pickVoice(synth: SpeechSynthesis, speechLang: string): SpeechSynthesisVoice | undefined {
@@ -203,8 +119,11 @@ function speakWithWebSpeech(character: Character, language: Language): void {
 /** Short joyful victory chime, synthesized so no asset download is needed. */
 export function playChime(): void {
   try {
-    const ctx = getCtx();
-    if (!ctx) return;
+    const Ctor =
+      window.AudioContext ??
+      (window as never as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!Ctor) return;
+    const ctx = new Ctor();
     const notes = [523.25, 659.25, 783.99, 1046.5]; // C5 E5 G5 C6
     notes.forEach((freq, i) => {
       const osc = ctx.createOscillator();

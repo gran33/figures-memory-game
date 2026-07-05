@@ -12,9 +12,7 @@
   },
   "dependencies": {
     "@fontsource-variable/fredoka": "^5.2.10",
-    "@huggingface/transformers": "^4.2.0",
     "framer-motion": "^12.42.2",
-    "kokoro-js": "^1.2.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "zustand": "^5.0.14"

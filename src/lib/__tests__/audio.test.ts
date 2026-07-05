@@ -1,106 +1,134 @@
-import { describe, it, expect, beforeEach, afterEach, type Mock } from 'vitest';
-import { playVoiceover, stopVoiceover, warmVoices } from '../audio';
+import { describe, it, expect, beforeEach, afterEach, vi, type Mock } from 'vitest';
+import { playVoiceover, stopVoiceover } from '../audio';
 import { getCharacter } from '../../i18n';
-import { KokoroTTS } from 'kokoro-js';
-import { pipeline } from '@huggingface/transformers';
 
 /**
- * Narration is generated on-device: Kokoro (English, gender-matched voices)
- * and MMS Hebrew (single speaker, gender via pitch). Both are mocked globally
- * in setupTests; WebAudio buffer sources are recorded on __audioSources.
+ * Narration plays pre-generated per-character clips (/audio/<lang>/<id>.mp3),
+ * with Web Speech only as a fallback. Regressions covered: a broken clip
+ * fires BOTH the error event and the play() rejection (must fall back exactly
+ * once); Safari needs post-failure taps to speak synchronously in-gesture;
+ * Chrome needs resume() after cancel() plus a watchdog re-kick.
  */
-const einstein = getCharacter('einstein'); // male inventor
-const curie = getCharacter('curie'); // female inventor
+const instances: Array<{ src: string; play: Mock; pause: Mock }> = [];
+let failPlayback = false;
 
-const fromPretrained = KokoroTTS.from_pretrained as unknown as Mock;
-const hePipeline = pipeline as unknown as Mock;
-
-interface RecordedSource {
-  playbackRate: { value: number };
-  start: Mock;
-  stop: Mock;
+class RecordingAudio {
+  src: string;
+  onerror: (() => void) | null = null;
+  play: Mock;
+  pause = vi.fn();
+  constructor(src?: string) {
+    this.src = src ?? '';
+    this.play = vi.fn(() => {
+      if (failPlayback) {
+        this.onerror?.(); // error event
+        return Promise.reject(new Error('NotSupportedError')); // and rejected play()
+      }
+      return Promise.resolve();
+    });
+    instances.push(this as never);
+  }
 }
-const sources = () => (globalThis as never as { __audioSources: RecordedSource[] }).__audioSources;
 
-async function kokoroGenerate(): Promise<Mock> {
-  const instance = await fromPretrained.mock.results[0].value;
-  return instance.generate as Mock;
+const einstein = getCharacter('einstein');
+const curie = getCharacter('curie');
+
+interface SynthMock {
+  speaking: boolean;
+  speak: Mock;
+  cancel: Mock;
+  resume: Mock;
 }
+const synth = () => window.speechSynthesis as unknown as SynthMock;
 
 beforeEach(() => {
-  sources().length = 0;
+  vi.useFakeTimers();
+  vi.stubGlobal('Audio', RecordingAudio);
+  instances.length = 0;
+  failPlayback = false;
+  synth().speaking = false;
+  synth().speak.mockClear();
+  synth().cancel.mockClear();
+  synth().resume.mockClear();
+  synth().speak.mockImplementation(() => {
+    synth().speaking = true;
+  });
+  synth().cancel.mockImplementation(() => {
+    synth().speaking = false;
+  });
 });
 
-afterEach(async () => {
+afterEach(() => {
   stopVoiceover();
-  const generate = fromPretrained.mock.results[0] ? await kokoroGenerate() : null;
-  generate?.mockClear();
+  vi.unstubAllGlobals();
+  vi.useRealTimers();
 });
 
-describe('playVoiceover — on-device neural narration', () => {
-  it('narrates English male heroes with the warm male Kokoro voice', async () => {
+describe('playVoiceover — pre-generated narration clips', () => {
+  it('plays the localized clip for the character, without any speech synthesis', async () => {
     await playVoiceover(einstein, 'en');
-    const generate = await kokoroGenerate();
-    expect(generate).toHaveBeenCalledWith(
-      expect.stringContaining('I am Albert Einstein'),
-      { voice: 'am_michael' },
-    );
-    expect(sources()).toHaveLength(1);
-    expect(sources()[0].start).toHaveBeenCalled();
+    expect(instances).toHaveLength(1);
+    expect(instances[0].src).toBe('/audio/en/einstein.mp3');
+    expect(instances[0].play).toHaveBeenCalled();
+    expect(synth().speak).not.toHaveBeenCalled();
   });
 
-  it('narrates English female heroes with the warm female Kokoro voice', async () => {
-    await playVoiceover(curie, 'en');
-    const generate = await kokoroGenerate();
-    expect(generate).toHaveBeenCalledWith(expect.stringContaining('Marie Curie'), {
-      voice: 'af_heart',
-    });
-  });
-
-  it('narrates Hebrew with the on-device MMS Hebrew model, pitch-shifted by gender', async () => {
-    await playVoiceover(einstein, 'he');
-    expect(hePipeline).toHaveBeenCalledWith('text-to-speech', 'mms-tts-heb', expect.anything());
-    const male = sources().at(-1)!;
-    expect(male.playbackRate.value).toBeLessThan(1);
-
+  it('plays the Hebrew clip when the active language is Hebrew', async () => {
     await playVoiceover(curie, 'he');
-    const female = sources().at(-1)!;
-    expect(female.playbackRate.value).toBeGreaterThan(1);
+    expect(instances[0].src).toBe('/audio/he/curie.mp3');
   });
 
-  it('loads each voice model only once across plays and warm-ups', async () => {
-    warmVoices('en');
+  it('replaying pauses the previous clip instead of stacking narrations', async () => {
     await playVoiceover(einstein, 'en');
-    await playVoiceover(curie, 'en');
-    expect(fromPretrained).toHaveBeenCalledTimes(1);
+    await playVoiceover(einstein, 'en');
+    expect(instances).toHaveLength(2);
+    expect(instances[0].pause).toHaveBeenCalled();
   });
 
-  it('stops the active narration when stopVoiceover is called', async () => {
+  it('stops the active clip when stopVoiceover is called', async () => {
     await playVoiceover(einstein, 'en');
-    const source = sources().at(-1)!;
     stopVoiceover();
-    expect(source.stop).toHaveBeenCalled();
+    expect(instances[0].pause).toHaveBeenCalled();
   });
+});
 
-  it('replaying stops the previous narration instead of stacking voices', async () => {
+describe('playVoiceover — Web Speech fallback for broken clips', () => {
+  it('falls back exactly once when a clip fails twice over (error event + rejection)', async () => {
+    failPlayback = true;
     await playVoiceover(einstein, 'en');
-    const first = sources().at(-1)!;
-    await playVoiceover(einstein, 'en');
-    expect(first.stop).toHaveBeenCalled();
-    expect(sources()).toHaveLength(2);
-  });
-
-  it('falls back to Web Speech if the neural engine fails, so narration never goes silent', async () => {
-    const generate = await (async () => {
-      await playVoiceover(einstein, 'en'); // ensure engine exists
-      return kokoroGenerate();
-    })();
-    const synth = window.speechSynthesis as unknown as { speak: Mock };
-    synth.speak.mockClear();
-    generate.mockRejectedValueOnce(new Error('model exploded'));
-    await playVoiceover(einstein, 'en');
-    expect(synth.speak).toHaveBeenCalledTimes(1);
-    const utterance = synth.speak.mock.calls[0][0] as SpeechSynthesisUtterance;
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(synth().speak).toHaveBeenCalledTimes(1);
+    const utterance = synth().speak.mock.calls[0][0] as SpeechSynthesisUtterance;
+    expect(utterance.lang).toBe('en-US');
     expect(utterance.text).toContain('I am Albert Einstein');
+  });
+
+  it('speaks synchronously in-gesture once a clip is known broken (Safari requirement)', async () => {
+    failPlayback = true;
+    await playVoiceover(einstein, 'en'); // learns the clip is broken
+    await vi.advanceTimersByTimeAsync(1000);
+    synth().speak.mockClear();
+    void playVoiceover(einstein, 'en'); // next tap — note: not awaited
+    expect(synth().speak).toHaveBeenCalledTimes(1);
+  });
+
+  it('resumes a stuck synthesizer before speaking (Chrome)', async () => {
+    failPlayback = true;
+    await playVoiceover(einstein, 'en');
+    const cancelOrder = synth().cancel.mock.invocationCallOrder.at(-1)!;
+    const resumeOrder = synth().resume.mock.invocationCallOrder.at(-1)!;
+    const speakOrder = synth().speak.mock.invocationCallOrder.at(-1)!;
+    expect(resumeOrder).toBeGreaterThan(cancelOrder);
+    expect(speakOrder).toBeGreaterThan(resumeOrder);
+  });
+
+  it('re-kicks speech once if Chrome silently dropped the speak()', async () => {
+    failPlayback = true;
+    synth().speak.mockImplementation(() => {}); // dropped: speaking stays false
+    await playVoiceover(einstein, 'en');
+    expect(synth().speak).toHaveBeenCalledTimes(1);
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(synth().speak).toHaveBeenCalledTimes(2); // watchdog retry, same utterance
+    expect(synth().speak.mock.calls[1][0]).toBe(synth().speak.mock.calls[0][0]);
   });
 });

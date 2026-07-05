@@ -1,6 +1,57 @@
 import '@testing-library/jest-dom/vitest';
 import { vi } from 'vitest';
 
+// The on-device neural TTS models are far too heavy for jsdom — mock both
+// engines with instant fake waveforms. Tests can import these modules to
+// assert which voice/model was requested.
+vi.mock('kokoro-js', () => {
+  const generate = vi.fn(async () => ({ audio: new Float32Array(2400), sampling_rate: 24000 }));
+  const instance = { generate };
+  return { KokoroTTS: { from_pretrained: vi.fn(async () => instance) } };
+});
+vi.mock('@huggingface/transformers', () => {
+  const synthesize = vi.fn(async () => ({ audio: new Float32Array(1600), sampling_rate: 16000 }));
+  return { pipeline: vi.fn(async () => synthesize), env: {} };
+});
+
+// jsdom does not implement WebAudio — minimal functional mock; created buffer
+// sources are recorded on globalThis.__audioSources for assertions.
+class MockAudioContext {
+  state = 'running';
+  currentTime = 0;
+  destination = {};
+  resume = vi.fn(async () => {});
+  createBuffer = vi.fn((_ch: number, length: number, rate: number) => ({
+    copyToChannel: vi.fn(),
+    duration: length / rate,
+  }));
+  createBufferSource = vi.fn(() => {
+    const source = {
+      buffer: null as unknown,
+      playbackRate: { value: 1 },
+      onended: null as (() => void) | null,
+      connect: vi.fn((node: unknown) => node),
+      start: vi.fn(),
+      stop: vi.fn(),
+    };
+    (globalThis as never as { __audioSources: unknown[] }).__audioSources.push(source);
+    return source;
+  });
+  createOscillator = vi.fn(() => ({
+    type: 'sine',
+    frequency: { value: 0 },
+    connect: vi.fn((node: unknown) => node),
+    start: vi.fn(),
+    stop: vi.fn(),
+  }));
+  createGain = vi.fn(() => ({
+    gain: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
+    connect: vi.fn((node: unknown) => node),
+  }));
+}
+(globalThis as never as { __audioSources: unknown[] }).__audioSources = [];
+Object.defineProperty(window, 'AudioContext', { writable: true, value: MockAudioContext });
+
 // Node 26 exposes an experimental `localStorage` global that is `undefined`
 // unless --localstorage-file is set, shadowing jsdom's implementation.
 if (typeof localStorage === 'undefined' || localStorage === undefined) {

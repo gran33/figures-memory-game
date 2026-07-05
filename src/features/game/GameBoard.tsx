@@ -8,7 +8,7 @@ import { MemoryCard } from './MemoryCard';
 import { Confetti } from './Confetti';
 import { CharacterModal } from '../../components/CharacterModal';
 import { Button } from '../../components/Button';
-import { playChime } from '../../lib/audio';
+import { playChime, warmVoices } from '../../lib/audio';
 
 export { FLIP_BACK_MS };
 
@@ -27,6 +27,11 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
   const { cards, modalCharacter, isComplete, flipCard, closeModal } = useMemoryGame(level, shuffle);
   const celebrated = useRef(false);
   const matchedPairs = cards.filter((c) => !c.isLogo && c.status === 'matched').length / 2;
+
+  // start downloading/compiling the voice model before the first match happens
+  useEffect(() => {
+    warmVoices(language);
+  }, [language]);
 
   useEffect(() => {
     if (isComplete && !celebrated.current) {

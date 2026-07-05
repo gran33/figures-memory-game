@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { CategoryId, Character } from '../types';
 import { Modal } from './Modal';
@@ -20,15 +20,25 @@ interface CharacterModalProps {
 
 /**
  * The premium first-person reward pop-up: emoji portrait on a sunburst,
- * localized name + bio, auto-playing voiceover with replay, and native sharing.
+ * localized name + bio, auto-playing neural voiceover with replay, and
+ * native sharing. The speaker button shows a spinner while the on-device
+ * voice model is being prepared (first use downloads it).
  */
 export function CharacterModal({ character, onClose }: CharacterModalProps) {
   const language = useGameStore((s) => s.language);
   const ui = getUi(language);
+  const [voiceLoading, setVoiceLoading] = useState(false);
+
+  const speak = (c: Character) => {
+    setVoiceLoading(true);
+    playVoiceover(c, language).finally(() => setVoiceLoading(false));
+  };
 
   // auto-play the localized voiceover whenever a character is revealed
   useEffect(() => {
-    if (character) playVoiceover(character, language);
+    if (!character) return;
+    setVoiceLoading(true);
+    playVoiceover(character, language).finally(() => setVoiceLoading(false));
     return stopVoiceover;
   }, [character, language]);
 
@@ -58,10 +68,21 @@ export function CharacterModal({ character, onClose }: CharacterModalProps) {
             <button
               data-testid="replay-audio"
               aria-label={ui.replayAudio}
-              onClick={() => playVoiceover(character, language)}
+              aria-busy={voiceLoading}
+              onClick={() => speak(character)}
               className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-400 text-2xl shadow-[0_5px_0_#0369a1] active:translate-y-1 active:shadow-none"
             >
-              🔊
+              {voiceLoading ? (
+                <motion.span
+                  data-testid="voice-loading"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                >
+                  ⏳
+                </motion.span>
+              ) : (
+                '🔊'
+              )}
             </button>
             <button
               data-testid="share-button"

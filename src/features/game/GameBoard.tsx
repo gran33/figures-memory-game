@@ -71,14 +71,16 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
         />
       </div>
 
-      {/* The grid scales to always fit the viewport — no vertical scrolling. */}
-      <main className="flex min-h-0 flex-1 items-center justify-center">
+      {/* The grid fills the full remaining height — no vertical scrolling,
+          cards stretch taller when width is the constraint. */}
+      <main className="flex min-h-0 flex-1 items-center justify-center py-2">
         <div
           data-testid="game-grid"
-          className="grid w-full gap-2"
+          className="grid h-full w-full gap-3 sm:gap-4"
           style={{
             gridTemplateColumns: `repeat(${level.cols}, minmax(0, 1fr))`,
-            maxWidth: `min(100%, calc((100dvh - 10rem) * ${level.cols} / ${level.rows}), 34rem)`,
+            gridTemplateRows: `repeat(${level.rows}, minmax(0, 1fr))`,
+            maxWidth: `min(100%, calc((100dvh - 11rem) * ${level.cols} / ${level.rows}), 36rem)`,
           }}
         >
           {cards.map((card, index) => (

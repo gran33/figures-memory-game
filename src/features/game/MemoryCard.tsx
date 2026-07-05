@@ -25,7 +25,7 @@ export function MemoryCard({ card, index, onFlip }: MemoryCardProps) {
       <div
         data-testid="logo-card"
         aria-hidden="true"
-        className="flex aspect-square select-none items-center justify-center rounded-2xl bg-gradient-to-br from-amber-300 via-orange-400 to-pink-500 shadow-[0_5px_0_rgba(0,0,0,0.3)] ring-4 ring-white/60"
+        className="flex h-full w-full select-none items-center justify-center rounded-2xl bg-gradient-to-br from-amber-300 via-orange-400 to-pink-500 shadow-[0_5px_0_rgba(0,0,0,0.3)] ring-4 ring-white/60"
       >
         <span className="animate-float text-[min(8vw,3rem)] drop-shadow-[0_3px_0_rgba(0,0,0,0.25)]">🏛️</span>
       </div>
@@ -43,7 +43,7 @@ export function MemoryCard({ card, index, onFlip }: MemoryCardProps) {
       aria-label={faceUp ? character.languages[language].name : `? ${index + 1}`}
       onClick={() => onFlip(index)}
       whileTap={{ scale: 0.93 }}
-      className="relative aspect-square [perspective:600px]"
+      className="relative h-full w-full [perspective:600px]"
     >
       <motion.div
         className="absolute inset-0 [transform-style:preserve-3d]"
@@ -52,7 +52,7 @@ export function MemoryCard({ card, index, onFlip }: MemoryCardProps) {
       >
         {/* back (face-down side): candy gradient with a star badge */}
         <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-gradient-to-br from-fuchsia-500 via-grape-500 to-indigo-600 shadow-[0_5px_0_rgba(0,0,0,0.35)] ring-4 ring-white/40 [backface-visibility:hidden]">
-          <span className="flex h-[55%] w-[55%] items-center justify-center rounded-full bg-white/15 text-[min(7vw,2rem)] font-extrabold text-amber-300">
+          <span className="flex aspect-square w-[55%] max-h-[60%] max-w-[4.5rem] items-center justify-center rounded-full bg-white/15 text-[min(7vw,2rem)] font-extrabold text-amber-300">
             ★
           </span>
         </div>

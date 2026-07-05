@@ -42,7 +42,7 @@ src/
 │   ├── map/         # LevelMap, MapNode
 │   ├── game/        # GameBoard, MemoryCard, Confetti, useMemoryGame engine
 │   └── album/       # AlbumView, StickerItem
-├── lib/             # audio (voiceover + synth fallback + victory chime), native share
+├── lib/             # audio (on-the-fly speech synthesis + victory chime), native share
 ├── store/           # Zustand store with persist → localStorage
 ├── types/           # Rigid TypeScript contracts
 └── i18n.ts          # Typed accessors over gameData.json
@@ -58,5 +58,6 @@ text direction, share text, and narration all follow automatically.
 
 ### Voiceover audio
 
-Place clips at `public/audio/<lang>/<characterId>.mp3`. Missing clips fall
-back to speech synthesis reading the localized first-person bio.
+Narration is synthesized on the fly with the browser's Web Speech API — each
+hero's localized first-person bio is read aloud in the `speechLang` voice of
+the active language, so no audio assets ship with the app.

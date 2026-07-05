@@ -8,8 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest",
-    "gen:audio": "node scripts/generate-voiceovers.mjs"
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@fontsource-variable/fredoka": "^5.2.10",

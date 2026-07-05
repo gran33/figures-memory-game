@@ -1,7 +1,6 @@
 import type { Character, Language } from '../types';
 import { gameData } from '../i18n';
 
-let activeAudio: HTMLAudioElement | null = null;
 let watchdogTimer: ReturnType<typeof setTimeout> | undefined;
 // Chrome garbage-collects in-flight utterances that lose their last reference,
 // which silently stops playback — keep the active one referenced.
@@ -32,7 +31,12 @@ function pickVoice(synth: SpeechSynthesis, speechLang: string): SpeechSynthesisV
   );
 }
 
-function speakBio(character: Character, language: Language): void {
+/**
+ * Narrates the character's localized first-person bio on the fly with the
+ * browser's speech synthesis — no audio assets to download.
+ */
+export function playVoiceover(character: Character, language: Language): void {
+  stopVoiceover();
   const synth = window.speechSynthesis;
   if (!synth || typeof SpeechSynthesisUtterance === 'undefined') return;
   const locale = character.languages[language];
@@ -64,46 +68,8 @@ function speakBio(character: Character, language: Language): void {
   }, 400);
 }
 
-/** Once an audioUrl fails it is remembered, so every later tap can speak
- *  synchronously inside the user gesture (required by Safari, snappier everywhere). */
-const brokenAudioUrls = new Set<string>();
-
-/**
- * Plays the character's localized voiceover file. If the mp3 asset is missing
- * (dev servers even answer with index.html + 200, which fails audio decoding)
- * the narration gracefully falls back to speech synthesis reading the bio in
- * the active language — exactly once, no matter how many error signals fire.
- */
-export function playVoiceover(character: Character, language: Language): void {
-  stopVoiceover();
-  const locale = character.languages[language];
-  const url = locale.audioUrl;
-
-  if (brokenAudioUrls.has(url)) {
-    speakBio(character, language); // synchronous — still inside the tap
-    return;
-  }
-
-  const audio = new Audio(url);
-  activeAudio = audio;
-
-  // a broken source fires BOTH the error event and the play() rejection —
-  // collapse them into a single fallback
-  let fellBack = false;
-  const fallback = () => {
-    if (fellBack) return;
-    fellBack = true;
-    brokenAudioUrls.add(url);
-    speakBio(character, language);
-  };
-  audio.onerror = fallback;
-  audio.play?.()?.catch?.(fallback);
-}
-
 export function stopVoiceover(): void {
   clearTimeout(watchdogTimer);
-  activeAudio?.pause();
-  activeAudio = null;
   activeUtterance = null;
   window.speechSynthesis?.cancel();
 }

@@ -10,7 +10,6 @@ export interface CharacterLocale {
   name: string;
   /** First-person bio: the character introduces themselves to the child. */
   bio: string;
-  audioUrl: string;
 }
 
 export type Gender = 'male' | 'female';
@@ -18,7 +17,7 @@ export type Gender = 'male' | 'female';
 export interface Character {
   id: string;
   category: CategoryId;
-  /** Drives the narration voice so each hero speaks with a fitting voice. */
+  /** Reserved for gender-matched narration voices. */
   gender: Gender;
   emoji: string;
   languages: Record<Language, CharacterLocale>;

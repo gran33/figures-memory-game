@@ -64,6 +64,10 @@ function speakBio(character: Character, language: Language): void {
   }, 400);
 }
 
+/** Once an audioUrl fails it is remembered, so every later tap can speak
+ *  synchronously inside the user gesture (required by Safari, snappier everywhere). */
+const brokenAudioUrls = new Set<string>();
+
 /**
  * Plays the character's localized voiceover file. If the mp3 asset is missing
  * (dev servers even answer with index.html + 200, which fails audio decoding)
@@ -73,7 +77,14 @@ function speakBio(character: Character, language: Language): void {
 export function playVoiceover(character: Character, language: Language): void {
   stopVoiceover();
   const locale = character.languages[language];
-  const audio = new Audio(locale.audioUrl);
+  const url = locale.audioUrl;
+
+  if (brokenAudioUrls.has(url)) {
+    speakBio(character, language); // synchronous — still inside the tap
+    return;
+  }
+
+  const audio = new Audio(url);
   activeAudio = audio;
 
   // a broken source fires BOTH the error event and the play() rejection —
@@ -82,6 +93,7 @@ export function playVoiceover(character: Character, language: Language): void {
   const fallback = () => {
     if (fellBack) return;
     fellBack = true;
+    brokenAudioUrls.add(url);
     speakBio(character, language);
   };
   audio.onerror = fallback;

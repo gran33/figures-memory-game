@@ -100,6 +100,15 @@ describe('playVoiceover — speech synthesis fallback', () => {
     expect(utterance.text).toContain('איינשטיין');
   });
 
+  it('speaks synchronously in-gesture once a url is known broken (Safari requirement)', async () => {
+    playVoiceover(einstein, 'en'); // first attempt learns the mp3 is broken
+    await vi.advanceTimersByTimeAsync(1000);
+    synth().speak.mockClear();
+    playVoiceover(einstein, 'en'); // the next tap
+    // no timers advanced, no promises awaited — speech must already be requested
+    expect(synth().speak).toHaveBeenCalledTimes(1);
+  });
+
   it('replaying restarts narration instead of stacking utterances', async () => {
     playVoiceover(einstein, 'en');
     await vi.advanceTimersByTimeAsync(1000);

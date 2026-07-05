@@ -524,6 +524,198 @@
       }
     },
     {
+      "id": "churchill",
+      "category": "leaders",
+      "gender": "male",
+      "emoji": "✌️",
+      "languages": {
+        "en": {
+          "name": "Winston Churchill",
+          "bio": "Hello! I am Winston Churchill. I led Britain through its darkest hours in World War II. I told my people: never, never, never give up — and those words helped us win!"
+        },
+        "he": {
+          "name": "וינסטון צ'רצ'יל",
+          "bio": "שלום! אני וינסטון צ'רצ'יל. הנהגתי את בריטניה ברגעים הקשים ביותר של מלחמת העולם השנייה. אמרתי לעם שלי: לעולם, לעולם, לעולם אל תוותרו — והמילים האלה עזרו לנו לנצח!"
+        }
+      }
+    },
+    {
+      "id": "jfk",
+      "category": "leaders",
+      "gender": "male",
+      "emoji": "🚀",
+      "languages": {
+        "en": {
+          "name": "John F. Kennedy",
+          "bio": "Hi there! I am John F. Kennedy, president of the United States. I gave my nation a daring dream — to land on the Moon! We chose to do the hard things not because they are easy, but because they are hard!"
+        },
+        "he": {
+          "name": "ג'ון פ. קנדי",
+          "bio": "היי! אני ג'ון פ. קנדי, נשיא ארצות הברית. הצבתי לאומה שלי חלום נועז — לנחות על הירח! בחרנו לעשות את הדברים הקשים לא כי הם קלים, אלא דווקא כי הם קשים!"
+        }
+      }
+    },
+    {
+      "id": "fdr",
+      "category": "leaders",
+      "gender": "male",
+      "emoji": "📻",
+      "languages": {
+        "en": {
+          "name": "Franklin D. Roosevelt",
+          "bio": "Hello, friends! I am Franklin D. Roosevelt. I led America from a wheelchair through very hard times, and I was elected president four times! I taught everyone that the only thing we have to fear is fear itself."
+        },
+        "he": {
+          "name": "פרנקלין רוזוולט",
+          "bio": "שלום, חברים! אני פרנקלין רוזוולט. הנהגתי את אמריקה מכיסא גלגלים בתקופות קשות מאוד, ונבחרתי לנשיא ארבע פעמים! לימדתי את כולם שהדבר היחיד שצריך לפחד ממנו הוא הפחד עצמו."
+        }
+      }
+    },
+    {
+      "id": "rabin",
+      "category": "leaders",
+      "gender": "male",
+      "emoji": "🤝",
+      "languages": {
+        "en": {
+          "name": "Yitzhak Rabin",
+          "bio": "Shalom! I am Yitzhak Rabin. I was a soldier who became Israel's Prime Minister, and I spent my life protecting my country and searching for peace. I won the Nobel Peace Prize — because making peace takes courage!"
+        },
+        "he": {
+          "name": "יצחק רבין",
+          "bio": "שלום! אני יצחק רבין. הייתי חייל שהפך לראש ממשלת ישראל, והקדשתי את חיי להגנה על המדינה ולחיפוש אחר השלום. זכיתי בפרס נובל לשלום — כי כדי לעשות שלום צריך אומץ!"
+        }
+      }
+    },
+    {
+      "id": "alexander",
+      "category": "leaders",
+      "gender": "male",
+      "emoji": "⚔️",
+      "languages": {
+        "en": {
+          "name": "Alexander the Great",
+          "bio": "Greetings! I am Alexander the Great. As a boy I tamed a wild horse named Bucephalus that no grown-up could ride, and by age 30 I had built one of the largest empires in history, spreading libraries and learning wherever I went!"
+        },
+        "he": {
+          "name": "אלכסנדר הגדול",
+          "bio": "ברכות! אני אלכסנדר הגדול. כילד אילפתי סוס פראי בשם בוקפלוס שאף מבוגר לא הצליח לרכוב עליו, ועד גיל 30 בניתי אחת האימפריות הגדולות בהיסטוריה, והפצתי ספריות וידע בכל מקום שאליו הגעתי!"
+        }
+      }
+    },
+    {
+      "id": "cyrus",
+      "category": "leaders",
+      "gender": "male",
+      "emoji": "🏺",
+      "languages": {
+        "en": {
+          "name": "Cyrus the Great",
+          "bio": "Greetings! I am Cyrus the Great, king of ancient Persia. I let all the peoples of my empire live freely and keep their own beliefs, and I even helped the Jewish people return to Jerusalem to rebuild their Temple!"
+        },
+        "he": {
+          "name": "כורש הגדול",
+          "bio": "ברכות! אני כורש הגדול, מלך פרס העתיקה. הרשיתי לכל העמים בממלכתי לחיות בחופשיות ולשמור על אמונתם, ואפילו עזרתי לעם היהודי לחזור לירושלים ולבנות מחדש את בית המקדש!"
+        }
+      }
+    },
+    {
+      "id": "cleopatra",
+      "category": "leaders",
+      "gender": "female",
+      "emoji": "👑",
+      "languages": {
+        "en": {
+          "name": "Cleopatra",
+          "bio": "Welcome! I am Cleopatra, the last queen of ancient Egypt. I spoke nine languages, studied science and books, and ruled a whole kingdom with wisdom. Learning was my crown jewel!"
+        },
+        "he": {
+          "name": "קליאופטרה",
+          "bio": "ברוכים הבאים! אני קליאופטרה, המלכה האחרונה של מצרים העתיקה. דיברתי תשע שפות, למדתי מדע וספרים, והנהגתי ממלכה שלמה בחוכמה. הלמידה הייתה היהלום שבכתר שלי!"
+        }
+      }
+    },
+    {
+      "id": "joanofarc",
+      "category": "leaders",
+      "gender": "female",
+      "emoji": "🛡️",
+      "languages": {
+        "en": {
+          "name": "Joan of Arc",
+          "bio": "Bonjour! I am Joan of Arc. When I was only 17 years old, I led a whole army and saved France! I proved that even a young girl with a brave heart can change history."
+        },
+        "he": {
+          "name": "ז'אן ד'ארק",
+          "bio": "בונז'ור! אני ז'אן ד'ארק. כשהייתי רק בת 17, הובלתי צבא שלם והצלתי את צרפת! הוכחתי שגם ילדה צעירה עם לב אמיץ יכולה לשנות את ההיסטוריה."
+        }
+      }
+    },
+    {
+      "id": "elizabeth",
+      "category": "leaders",
+      "gender": "female",
+      "emoji": "👸",
+      "languages": {
+        "en": {
+          "name": "Queen Elizabeth I",
+          "bio": "Greetings! I am Queen Elizabeth I. I ruled England for 45 years during a golden age of music, theater, and discovery — William Shakespeare wrote his famous plays in my time!"
+        },
+        "he": {
+          "name": "המלכה אליזבת הראשונה",
+          "bio": "ברכות! אני המלכה אליזבת הראשונה. שלטתי באנגליה 45 שנים בתקופת זהב של מוזיקה, תיאטרון ותגליות — ויליאם שייקספיר כתב את מחזותיו המפורסמים בתקופתי!"
+        }
+      }
+    },
+    {
+      "id": "eleanor",
+      "category": "leaders",
+      "gender": "female",
+      "emoji": "🌹",
+      "languages": {
+        "en": {
+          "name": "Eleanor Roosevelt",
+          "bio": "Hello! I am Eleanor Roosevelt. I helped write the Universal Declaration of Human Rights, so every child in the world would have equal rights. Remember: no one can make you feel small without your permission!"
+        },
+        "he": {
+          "name": "אלינור רוזוולט",
+          "bio": "שלום לכם! אני אלינור רוזוולט. עזרתי לכתוב את ההכרזה העולמית בדבר זכויות האדם, כדי שלכל ילד וילדה בעולם יהיו זכויות שוות. זכרו: אף אחד לא יכול לגרום לכם להרגיש קטנים בלי הרשות שלכם!"
+        }
+      }
+    },
+    {
+      "id": "tubman",
+      "category": "leaders",
+      "gender": "female",
+      "emoji": "⭐",
+      "languages": {
+        "en": {
+          "name": "Harriet Tubman",
+          "bio": "Hello! I am Harriet Tubman. I escaped slavery, then went back again and again in the dark of night to lead dozens of people to freedom. I followed the North Star — and I never lost a single person on the way!"
+        },
+        "he": {
+          "name": "הרייט טאבמן",
+          "bio": "שלום! אני הרייט טאבמן. ברחתי מעבדות, ואז חזרתי שוב ושוב בחשכת הלילה כדי להוביל עשרות אנשים אל החופש. עקבתי אחרי כוכב הצפון — ואף פעם לא איבדתי אף אחד בדרך!"
+        }
+      }
+    },
+    {
+      "id": "parks",
+      "category": "leaders",
+      "gender": "female",
+      "emoji": "🚌",
+      "languages": {
+        "en": {
+          "name": "Rosa Parks",
+          "bio": "Hello! I am Rosa Parks. One day on a bus, I refused to give up my seat just because of the color of my skin. My quiet 'no' sparked a giant movement for fairness and equality!"
+        },
+        "he": {
+          "name": "רוזה פארקס",
+          "bio": "שלום! אני רוזה פארקס. יום אחד באוטובוס סירבתי לוותר על המושב שלי רק בגלל צבע העור שלי. ה'לא' השקט שלי הצית תנועה ענקית של הוגנות ושוויון!"
+        }
+      }
+    },
+    {
       "id": "pele",
       "category": "athletes",
       "gender": "male",

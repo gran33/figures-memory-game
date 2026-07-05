@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Baloo 2", "Comic Sans MS", "Varela Round", ui-rounded, system-ui, sans-serif;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #fff7ed; /* warm cream */
+}

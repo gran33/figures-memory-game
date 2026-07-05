@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="120" fill="#bfdbfe"/>
+  <rect x="96" y="116" width="150" height="180" rx="28" fill="#fffbf0" stroke="#93c5fd" stroke-width="10"/>
+  <rect x="266" y="216" width="150" height="180" rx="28" fill="#bbf7d0" stroke="#86efac" stroke-width="10"/>
+  <text x="171" y="230" font-size="90" text-anchor="middle">💡</text>
+  <text x="341" y="330" font-size="90" text-anchor="middle">⭐</text>
+</svg>

@@ -45,7 +45,7 @@ export function MainMenu() {
         <h1 className="text-5xl font-extrabold text-white drop-shadow-[0_4px_0_rgba(0,0,0,0.3)]">
           {ui.appTitle}
         </h1>
-        <p className="rounded-full bg-white/20 px-4 py-1.5 text-lg font-bold text-amber-200">
+        <p className="max-w-full whitespace-nowrap rounded-full bg-white/20 px-4 py-1.5 text-[clamp(0.7rem,3.6vw,1.125rem)] font-bold text-amber-200">
           ✨ {ui.appTagline} ✨
         </p>
       </motion.div>

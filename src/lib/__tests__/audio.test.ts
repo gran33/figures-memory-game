@@ -3,27 +3,13 @@ import { playVoiceover, stopVoiceover } from '../audio';
 import { getCharacter } from '../../i18n';
 
 /**
- * Regression tests for the mute speaker button.
+ * Regression tests for the speaker button.
  *
- * A missing mp3 (dev servers even answer it with index.html + 200) fires BOTH
- * the <audio> error event and the play() rejection. On top of that Chrome can
- * be stuck paused after cancel() (needs resume()), occasionally drops a speak()
- * issued right after cancel() (needs a watchdog), and Safari requires the
- * first speak() to happen synchronously inside the user's tap.
+ * Narration is synthesized on the fly. Chrome can be stuck paused after
+ * cancel() (needs resume()), occasionally drops a speak() issued right after
+ * cancel() (needs a watchdog), and Safari requires the first speak() to happen
+ * synchronously inside the user's tap.
  */
-class BrokenAudio {
-  src: string;
-  onerror: (() => void) | null = null;
-  constructor(src?: string) {
-    this.src = src ?? '';
-  }
-  play() {
-    this.onerror?.(); // error event
-    return Promise.reject(new Error('NotSupportedError')); // and rejected play()
-  }
-  pause() {}
-}
-
 interface SynthMock {
   speaking: boolean;
   speak: Mock;
@@ -37,7 +23,6 @@ const synth = () => window.speechSynthesis as unknown as SynthMock;
 
 beforeEach(() => {
   vi.useFakeTimers();
-  vi.stubGlobal('Audio', BrokenAudio);
   synth().speaking = false;
   synth().speak.mockClear();
   synth().cancel.mockClear();
@@ -53,12 +38,11 @@ beforeEach(() => {
 
 afterEach(() => {
   stopVoiceover();
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 
-describe('playVoiceover — speech synthesis fallback', () => {
-  it('speaks the localized bio exactly once when the audio asset fails twice over', async () => {
+describe('playVoiceover — on-the-fly speech synthesis', () => {
+  it('speaks the localized bio exactly once', async () => {
     playVoiceover(einstein, 'en');
     await vi.advanceTimersByTimeAsync(1000);
     expect(synth().speak).toHaveBeenCalledTimes(1);
@@ -69,7 +53,7 @@ describe('playVoiceover — speech synthesis fallback', () => {
 
   it('speaks synchronously within the tap (Safari) and resumes a stuck synthesizer (Chrome)', () => {
     playVoiceover(einstein, 'en');
-    // the error event is synchronous here, so speak must be too — no timers
+    // speech must be requested before the tap handler returns — no timers
     expect(synth().speak).toHaveBeenCalledTimes(1);
     const cancelOrder = synth().cancel.mock.invocationCallOrder.at(-1)!;
     const resumeOrder = synth().resume.mock.invocationCallOrder.at(-1)!;
@@ -98,15 +82,6 @@ describe('playVoiceover — speech synthesis fallback', () => {
     const utterance = synth().speak.mock.calls[0][0] as SpeechSynthesisUtterance;
     expect(utterance.lang).toBe('he-IL');
     expect(utterance.text).toContain('איינשטיין');
-  });
-
-  it('speaks synchronously in-gesture once a url is known broken (Safari requirement)', async () => {
-    playVoiceover(einstein, 'en'); // first attempt learns the mp3 is broken
-    await vi.advanceTimersByTimeAsync(1000);
-    synth().speak.mockClear();
-    playVoiceover(einstein, 'en'); // the next tap
-    // no timers advanced, no promises awaited — speech must already be requested
-    expect(synth().speak).toHaveBeenCalledTimes(1);
   });
 
   it('replaying restarts narration instead of stacking utterances', async () => {

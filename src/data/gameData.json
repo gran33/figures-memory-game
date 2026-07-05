@@ -63,12 +63,12 @@
         "en": {
           "name": "Albert Einstein",
           "bio": "Hi there! I am Albert Einstein. I was a physicist, and I discovered the theory of relativity, which helps explain how space, time, and gravity hold our universe together!",
-          "audioUrl": "/audio/en/einstein.mp3"
+          "audioUrl": "/audio/en/einstein.m4a"
         },
         "he": {
           "name": "אלברט איינשטיין",
           "bio": "שלום לכם! אני אלברט איינשטיין. הייתי פיזיקאי, וגיליתי את תורת היחסות, שעוזרת להסביר איך המרחב, הזמן והכבידה מחזיקים את היקום שלנו יחד!",
-          "audioUrl": "/audio/he/einstein.mp3"
+          "audioUrl": "/audio/he/einstein.m4a"
         }
       }
     },
@@ -80,12 +80,12 @@
         "en": {
           "name": "Marie Curie",
           "bio": "Hello! I am Marie Curie. I loved science so much that I won the Nobel Prize twice! I discovered glowing elements that doctors still use today to help sick people get better.",
-          "audioUrl": "/audio/en/curie.mp3"
+          "audioUrl": "/audio/en/curie.m4a"
         },
         "he": {
           "name": "מארי קירי",
           "bio": "שלום! אני מארי קירי. כל כך אהבתי מדע שזכיתי בפרס נובל פעמיים! גיליתי יסודות זוהרים שרופאים משתמשים בהם עד היום כדי לעזור לאנשים חולים להבריא.",
-          "audioUrl": "/audio/he/curie.mp3"
+          "audioUrl": "/audio/he/curie.m4a"
         }
       }
     },
@@ -97,12 +97,12 @@
         "en": {
           "name": "Thomas Edison",
           "bio": "Hey friend! I am Thomas Edison. I invented the light bulb that brightens your room at night! I failed thousands of times, but I never gave up — and neither should you!",
-          "audioUrl": "/audio/en/edison.mp3"
+          "audioUrl": "/audio/en/edison.m4a"
         },
         "he": {
           "name": "תומאס אדיסון",
           "bio": "היי חברים! אני תומאס אדיסון. המצאתי את נורת החשמל שמאירה את החדר שלכם בלילה! נכשלתי אלפי פעמים, אבל אף פעם לא ויתרתי — וגם אתם לא כדאי שתוותרו!",
-          "audioUrl": "/audio/he/edison.mp3"
+          "audioUrl": "/audio/he/edison.m4a"
         }
       }
     },
@@ -114,12 +114,12 @@
         "en": {
           "name": "Leonardo da Vinci",
           "bio": "Greetings! I am Leonardo da Vinci. I painted the famous Mona Lisa, but I also dreamed up flying machines hundreds of years before airplanes existed! Curiosity was my superpower.",
-          "audioUrl": "/audio/en/davinci.mp3"
+          "audioUrl": "/audio/en/davinci.m4a"
         },
         "he": {
           "name": "לאונרדו דה וינצ'י",
           "bio": "ברכות! אני לאונרדו דה וינצ'י. ציירתי את המונה ליזה המפורסמת, אבל גם חלמתי על מכונות מעופפות מאות שנים לפני שהיו מטוסים! סקרנות הייתה כוח העל שלי.",
-          "audioUrl": "/audio/he/davinci.mp3"
+          "audioUrl": "/audio/he/davinci.m4a"
         }
       }
     },
@@ -131,12 +131,12 @@
         "en": {
           "name": "Isaac Newton",
           "bio": "Hello! I am Isaac Newton. When an apple fell near me, I asked a big question: why do things fall down? That question helped me discover gravity, the invisible force that keeps your feet on the ground!",
-          "audioUrl": "/audio/en/newton.mp3"
+          "audioUrl": "/audio/en/newton.m4a"
         },
         "he": {
           "name": "אייזק ניוטון",
           "bio": "שלום! אני אייזק ניוטון. כשתפוח נפל לידי, שאלתי שאלה גדולה: למה דברים נופלים למטה? השאלה הזאת עזרה לי לגלות את כוח הכבידה, הכוח הבלתי נראה שמחזיק את הרגליים שלכם על הקרקע!",
-          "audioUrl": "/audio/he/newton.mp3"
+          "audioUrl": "/audio/he/newton.m4a"
         }
       }
     },
@@ -148,12 +148,12 @@
         "en": {
           "name": "Ada Lovelace",
           "bio": "Hi! I am Ada Lovelace. Long before computers existed, I wrote the very first computer program! I imagined machines could make music and art one day — and look, I was right!",
-          "audioUrl": "/audio/en/lovelace.mp3"
+          "audioUrl": "/audio/en/lovelace.m4a"
         },
         "he": {
           "name": "עדה לאבלייס",
           "bio": "היי! אני עדה לאבלייס. הרבה לפני שהיו מחשבים, כתבתי את תוכנת המחשב הראשונה בעולם! דמיינתי שמכונות יוכלו יום אחד ליצור מוזיקה ואומנות — ותראו, צדקתי!",
-          "audioUrl": "/audio/he/lovelace.mp3"
+          "audioUrl": "/audio/he/lovelace.m4a"
         }
       }
     },
@@ -165,12 +165,12 @@
         "en": {
           "name": "Alexander Graham Bell",
           "bio": "Hello, can you hear me? I am Alexander Graham Bell, and I invented the telephone! Thanks to my invention, people far away from each other could finally hear each other's voices.",
-          "audioUrl": "/audio/en/bell.mp3"
+          "audioUrl": "/audio/en/bell.m4a"
         },
         "he": {
           "name": "אלכסנדר גרהם בל",
           "bio": "הלו, שומעים אותי? אני אלכסנדר גרהם בל, ואני המצאתי את הטלפון! בזכות ההמצאה שלי, אנשים רחוקים זה מזה יכלו סוף סוף לשמוע אחד את הקול של השני.",
-          "audioUrl": "/audio/he/bell.mp3"
+          "audioUrl": "/audio/he/bell.m4a"
         }
       }
     },
@@ -182,12 +182,12 @@
         "en": {
           "name": "Galileo Galilei",
           "bio": "Buongiorno! I am Galileo Galilei. I pointed my telescope at the night sky and discovered moons dancing around Jupiter! I taught the world that looking closely is how we find the truth.",
-          "audioUrl": "/audio/en/galileo.mp3"
+          "audioUrl": "/audio/en/galileo.m4a"
         },
         "he": {
           "name": "גלילאו גליליי",
           "bio": "בונג'ורנו! אני גלילאו גליליי. כיוונתי את הטלסקופ שלי לשמי הלילה וגיליתי ירחים רוקדים סביב צדק! לימדתי את העולם שהתבוננות מקרוב היא הדרך לגלות את האמת.",
-          "audioUrl": "/audio/he/galileo.mp3"
+          "audioUrl": "/audio/he/galileo.m4a"
         }
       }
     },
@@ -199,12 +199,12 @@
         "en": {
           "name": "David Ben-Gurion",
           "bio": "Shalom! I am David Ben-Gurion, Israel's first Prime Minister. In 1948 I read the declaration that made Israel a state! I loved the desert so much that I moved to live in it — and I even did headstands on the beach!",
-          "audioUrl": "/audio/en/bengurion.mp3"
+          "audioUrl": "/audio/en/bengurion.m4a"
         },
         "he": {
           "name": "דוד בן-גוריון",
           "bio": "שלום! אני דוד בן-גוריון, ראש הממשלה הראשון של ישראל. בשנת 1948 הקראתי את מגילת העצמאות שהקימה את מדינת ישראל! כל כך אהבתי את המדבר שעברתי לגור בו — ואפילו עשיתי עמידות ראש על החוף!",
-          "audioUrl": "/audio/he/bengurion.mp3"
+          "audioUrl": "/audio/he/bengurion.m4a"
         }
       }
     },
@@ -216,12 +216,12 @@
         "en": {
           "name": "Golda Meir",
           "bio": "Hello, dear! I am Golda Meir. I was one of the first women in the world to lead a country as Prime Minister of Israel. I showed everyone that with courage and hard work, a girl can lead a nation!",
-          "audioUrl": "/audio/en/golda.mp3"
+          "audioUrl": "/audio/en/golda.m4a"
         },
         "he": {
           "name": "גולדה מאיר",
           "bio": "שלום, יקיריי! אני גולדה מאיר. הייתי מהנשים הראשונות בעולם שהנהיגו מדינה, כראשת ממשלת ישראל. הראיתי לכולם שעם אומץ ועבודה קשה, ילדה יכולה להנהיג אומה!",
-          "audioUrl": "/audio/he/golda.mp3"
+          "audioUrl": "/audio/he/golda.m4a"
         }
       }
     },
@@ -233,12 +233,12 @@
         "en": {
           "name": "Abraham Lincoln",
           "bio": "Howdy! I am Abraham Lincoln, the sixteenth president of the United States. I grew up in a tiny log cabin, and I worked to make sure all people could be free. Always be honest — they called me Honest Abe!",
-          "audioUrl": "/audio/en/lincoln.mp3"
+          "audioUrl": "/audio/en/lincoln.m4a"
         },
         "he": {
           "name": "אברהם לינקולן",
           "bio": "שלום לכם! אני אברהם לינקולן, הנשיא השישה-עשר של ארצות הברית. גדלתי בבקתת עץ קטנטנה, ופעלתי כדי שכל בני האדם יהיו חופשיים. תמיד תהיו כנים — לי קראו אייב הישר!",
-          "audioUrl": "/audio/he/lincoln.mp3"
+          "audioUrl": "/audio/he/lincoln.m4a"
         }
       }
     },
@@ -250,12 +250,12 @@
         "en": {
           "name": "Mahatma Gandhi",
           "bio": "Namaste! I am Mahatma Gandhi. I helped India become free without ever fighting — I used peace, patience, and kindness instead. I believed you must be the change you wish to see in the world!",
-          "audioUrl": "/audio/en/gandhi.mp3"
+          "audioUrl": "/audio/en/gandhi.m4a"
         },
         "he": {
           "name": "מהטמה גנדי",
           "bio": "נמסטה! אני מהטמה גנדי. עזרתי להודו להשתחרר בלי להילחם בכלל — השתמשתי בשלום, בסבלנות ובנדיבות במקום. האמנתי שאתם צריכים להיות השינוי שאתם רוצים לראות בעולם!",
-          "audioUrl": "/audio/he/gandhi.mp3"
+          "audioUrl": "/audio/he/gandhi.m4a"
         }
       }
     },
@@ -267,12 +267,12 @@
         "en": {
           "name": "Martin Luther King Jr.",
           "bio": "Hello, friend! I am Martin Luther King Jr. I had a dream that all children would play together as equals, no matter the color of their skin. I marched peacefully until the world began to listen!",
-          "audioUrl": "/audio/en/mlk.mp3"
+          "audioUrl": "/audio/en/mlk.m4a"
         },
         "he": {
           "name": "מרטין לותר קינג",
           "bio": "שלום, חברים! אני מרטין לותר קינג. היה לי חלום שכל הילדים ישחקו יחד כשווים, לא משנה מה צבע העור שלהם. צעדתי בדרכי שלום עד שהעולם התחיל להקשיב!",
-          "audioUrl": "/audio/he/mlk.mp3"
+          "audioUrl": "/audio/he/mlk.m4a"
         }
       }
     },
@@ -284,12 +284,12 @@
         "en": {
           "name": "Nelson Mandela",
           "bio": "Hello! I am Nelson Mandela. I spent 27 years in prison for believing all people are equal, yet I came out with a heart full of forgiveness and became South Africa's first Black president!",
-          "audioUrl": "/audio/en/mandela.mp3"
+          "audioUrl": "/audio/en/mandela.m4a"
         },
         "he": {
           "name": "נלסון מנדלה",
           "bio": "שלום! אני נלסון מנדלה. ביליתי 27 שנים בכלא כי האמנתי שכל בני האדם שווים, ובכל זאת יצאתי עם לב מלא סליחה והפכתי לנשיא השחור הראשון של דרום אפריקה!",
-          "audioUrl": "/audio/he/mandela.mp3"
+          "audioUrl": "/audio/he/mandela.m4a"
         }
       }
     },
@@ -301,12 +301,12 @@
         "en": {
           "name": "Theodor Herzl",
           "bio": "Greetings! I am Theodor Herzl. More than a hundred years ago, I dreamed of a home for the Jewish people. I always said: if you will it, it is no dream — and my dream became the State of Israel!",
-          "audioUrl": "/audio/en/herzl.mp3"
+          "audioUrl": "/audio/en/herzl.m4a"
         },
         "he": {
           "name": "בנימין זאב הרצל",
           "bio": "ברכות! אני בנימין זאב הרצל. לפני יותר ממאה שנה, חלמתי על בית לעם היהודי. תמיד אמרתי: אם תרצו, אין זו אגדה — והחלום שלי הפך למדינת ישראל!",
-          "audioUrl": "/audio/he/herzl.mp3"
+          "audioUrl": "/audio/he/herzl.m4a"
         }
       }
     },
@@ -318,12 +318,12 @@
         "en": {
           "name": "George Washington",
           "bio": "Greetings! I am George Washington, the very first president of the United States. I led my country to independence, and then I did something surprising — I gave up power so the people could choose their leaders!",
-          "audioUrl": "/audio/en/washington.mp3"
+          "audioUrl": "/audio/en/washington.m4a"
         },
         "he": {
           "name": "ג'ורג' וושינגטון",
           "bio": "ברכות! אני ג'ורג' וושינגטון, הנשיא הראשון של ארצות הברית. הובלתי את המדינה שלי לעצמאות, ואז עשיתי משהו מפתיע — ויתרתי על הכוח כדי שהעם יוכל לבחור את מנהיגיו!",
-          "audioUrl": "/audio/he/washington.mp3"
+          "audioUrl": "/audio/he/washington.m4a"
         }
       }
     },
@@ -335,12 +335,12 @@
         "en": {
           "name": "Pelé",
           "bio": "Olá! I am Pelé, the king of soccer! I grew up so poor I practiced with a sock stuffed with rags instead of a ball, and I still became the only player ever to win three World Cups!",
-          "audioUrl": "/audio/en/pele.mp3"
+          "audioUrl": "/audio/en/pele.m4a"
         },
         "he": {
           "name": "פלה",
           "bio": "אולה! אני פלה, מלך הכדורגל! גדלתי עני כל כך שהתאמנתי עם גרב ממולא בסמרטוטים במקום כדור, ובכל זאת הפכתי לשחקן היחיד אי פעם שזכה בשלושה גביעי עולם!",
-          "audioUrl": "/audio/he/pele.mp3"
+          "audioUrl": "/audio/he/pele.m4a"
         }
       }
     },
@@ -352,12 +352,12 @@
         "en": {
           "name": "Muhammad Ali",
           "bio": "Hey champ! I am Muhammad Ali, the greatest boxer of all time! I floated like a butterfly and stung like a bee. I believed in myself even when others didn't — that's the real secret of a champion!",
-          "audioUrl": "/audio/en/ali.mp3"
+          "audioUrl": "/audio/en/ali.m4a"
         },
         "he": {
           "name": "מוחמד עלי",
           "bio": "היי אלופים! אני מוחמד עלי, המתאגרף הגדול בכל הזמנים! ריחפתי כמו פרפר ועקצתי כמו דבורה. האמנתי בעצמי גם כשאחרים לא — וזה הסוד האמיתי של אלוף!",
-          "audioUrl": "/audio/he/ali.mp3"
+          "audioUrl": "/audio/he/ali.m4a"
         }
       }
     },
@@ -369,12 +369,12 @@
         "en": {
           "name": "Serena Williams",
           "bio": "Hi! I am Serena Williams. I started playing tennis on cracked public courts, and I became one of the greatest champions in history with 23 Grand Slam titles! Practice and belief can take you anywhere.",
-          "audioUrl": "/audio/en/serena.mp3"
+          "audioUrl": "/audio/en/serena.m4a"
         },
         "he": {
           "name": "סרינה וויליאמס",
           "bio": "היי! אני סרינה וויליאמס. התחלתי לשחק טניס במגרשים ציבוריים סדוקים, והפכתי לאחת האלופות הגדולות בהיסטוריה עם 23 תארי גרנד סלאם! אימון ואמונה יכולים לקחת אתכם לכל מקום.",
-          "audioUrl": "/audio/he/serena.mp3"
+          "audioUrl": "/audio/he/serena.m4a"
         }
       }
     },
@@ -386,12 +386,12 @@
         "en": {
           "name": "Usain Bolt",
           "bio": "Wah gwaan! I am Usain Bolt, the fastest human who ever lived! I ran 100 meters in just 9.58 seconds — faster than you can say my name three times! Remember: train hard, then fly like lightning!",
-          "audioUrl": "/audio/en/bolt.mp3"
+          "audioUrl": "/audio/en/bolt.m4a"
         },
         "he": {
           "name": "יוסיין בולט",
           "bio": "מה קורה! אני יוסיין בולט, האדם המהיר ביותר שחי אי פעם! רצתי 100 מטר ב-9.58 שניות בלבד — מהר יותר משאתם מספיקים להגיד את השם שלי שלוש פעמים! זכרו: מתאמנים קשה, ואז עפים כמו ברק!",
-          "audioUrl": "/audio/he/bolt.mp3"
+          "audioUrl": "/audio/he/bolt.m4a"
         }
       }
     },
@@ -403,12 +403,12 @@
         "en": {
           "name": "Michael Jordan",
           "bio": "What's up! I am Michael Jordan. They said I wasn't good enough for my school team, but I kept practicing and became a six-time basketball champion! I missed thousands of shots — and that is why I succeeded.",
-          "audioUrl": "/audio/en/jordan.mp3"
+          "audioUrl": "/audio/en/jordan.m4a"
         },
         "he": {
           "name": "מייקל ג'ורדן",
           "bio": "מה נשמע! אני מייקל ג'ורדן. אמרו לי שאני לא מספיק טוב לנבחרת בית הספר, אבל המשכתי להתאמן והפכתי לאלוף כדורסל שש פעמים! החטאתי אלפי זריקות — ובדיוק בגלל זה הצלחתי.",
-          "audioUrl": "/audio/he/jordan.mp3"
+          "audioUrl": "/audio/he/jordan.m4a"
         }
       }
     },
@@ -420,12 +420,12 @@
         "en": {
           "name": "Jesse Owens",
           "bio": "Hello! I am Jesse Owens. At the 1936 Olympics, I won four gold medals in track and field and showed the whole world that talent and heart matter more than anything else about a person!",
-          "audioUrl": "/audio/en/owens.mp3"
+          "audioUrl": "/audio/en/owens.m4a"
         },
         "he": {
           "name": "ג'סי אוונס",
           "bio": "שלום! אני ג'סי אוונס. באולימפיאדת 1936 זכיתי בארבע מדליות זהב באתלטיקה, והראיתי לעולם כולו שכישרון ולב חשובים יותר מכל דבר אחר באדם!",
-          "audioUrl": "/audio/he/owens.mp3"
+          "audioUrl": "/audio/he/owens.m4a"
         }
       }
     },
@@ -437,12 +437,12 @@
         "en": {
           "name": "Simone Biles",
           "bio": "Hi there! I am Simone Biles, a gymnast who flips higher than anyone thought possible! I have won more world championship medals than any gymnast ever, and I even have moves named after me!",
-          "audioUrl": "/audio/en/biles.mp3"
+          "audioUrl": "/audio/en/biles.m4a"
         },
         "he": {
           "name": "סימון ביילס",
           "bio": "שלום לכם! אני סימון ביילס, מתעמלת שמתהפכת גבוה יותר ממה שמישהו חשב שאפשר! זכיתי ביותר מדליות באליפויות עולם מכל מתעמלת אי פעם, ויש אפילו תרגילים שנקראים על שמי!",
-          "audioUrl": "/audio/he/biles.mp3"
+          "audioUrl": "/audio/he/biles.m4a"
         }
       }
     },
@@ -454,12 +454,12 @@
         "en": {
           "name": "Nadia Comaneci",
           "bio": "Hello! I am Nadia Comaneci. When I was just 14 years old, I became the first gymnast in Olympic history to score a perfect 10! The scoreboard couldn't even show my score — it wasn't built for perfection!",
-          "audioUrl": "/audio/en/comaneci.mp3"
+          "audioUrl": "/audio/en/comaneci.m4a"
         },
         "he": {
           "name": "נדיה קומנץ'",
           "bio": "שלום! אני נדיה קומנץ'. כשהייתי רק בת 14, הפכתי למתעמלת הראשונה בהיסטוריה האולימפית שקיבלה ציון 10 מושלם! לוח התוצאות אפילו לא הצליח להציג את הציון שלי — הוא לא נבנה בשביל שלמות!",
-          "audioUrl": "/audio/he/comaneci.mp3"
+          "audioUrl": "/audio/he/comaneci.m4a"
         }
       }
     }

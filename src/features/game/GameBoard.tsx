@@ -1,12 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { getLevel, TOTAL_LEVELS } from '../../data/levels';
+import type { CollectionId } from '../../types';
 import { useGameStore } from '../../store/gameStore';
-import { getUi } from '../../i18n';
+import { getUi, format } from '../../i18n';
 import { useMemoryGame, FLIP_BACK_MS, type ShuffleFn } from './useMemoryGame';
 import { MemoryCard } from './MemoryCard';
 import { Confetti } from './Confetti';
+import { CollectionCelebration } from './CollectionCelebration';
 import { CharacterModal } from '../../components/CharacterModal';
+import { ScoreChip } from '../../components/ScoreChip';
 import { Button } from '../../components/Button';
 import { playChime } from '../../lib/audio';
 
@@ -23,9 +26,14 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
   const language = useGameStore((s) => s.language);
   const navigate = useGameStore((s) => s.navigate);
   const completeLevel = useGameStore((s) => s.completeLevel);
+  const totalScore = useGameStore((s) => s.totalScore);
   const ui = getUi(language);
-  const { cards, modalCharacter, isComplete, flipCard, closeModal } = useMemoryGame(level, shuffle);
+  const { cards, modalCharacter, modalMatch, isComplete, sessionPoints, flipCard, closeModal } =
+    useMemoryGame(level, shuffle);
   const celebrated = useRef(false);
+  // Completed collections wait here until the reward modal closes, then get
+  // their own extra-festive trophy moment (the rarest event in the game).
+  const [collectionQueue, setCollectionQueue] = useState<CollectionId[]>([]);
   const matchedPairs = cards.filter((c) => !c.isLogo && c.status === 'matched').length / 2;
 
   useEffect(() => {
@@ -35,6 +43,12 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
       playChime();
     }
   }, [isComplete, completeLevel, levelId]);
+
+  useEffect(() => {
+    if (modalMatch && modalMatch.completedCollections.length > 0) {
+      setCollectionQueue((q) => [...q, ...modalMatch.completedCollections]);
+    }
+  }, [modalMatch]);
 
   return (
     <div className="flex h-dvh flex-col bg-gradient-to-b from-grape-700 via-grape-800 to-indigo-950 p-3">
@@ -54,11 +68,14 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
             {ui.level} {levelId} / {TOTAL_LEVELS}
           </div>
         </div>
-        <div
-          className="flex h-12 min-w-12 items-center justify-center rounded-2xl bg-white/15 px-2 text-base font-extrabold text-amber-300 ring-2 ring-white/20"
-          aria-hidden="true"
-        >
-          {matchedPairs}/{level.pairs}
+        <div className="flex items-center gap-1.5">
+          <ScoreChip />
+          <div
+            className="flex h-12 min-w-12 items-center justify-center rounded-2xl bg-white/15 px-2 text-base font-extrabold text-amber-300 ring-2 ring-white/20"
+            aria-hidden="true"
+          >
+            {matchedPairs}/{level.pairs}
+          </div>
         </div>
       </header>
 
@@ -100,6 +117,12 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
             className="z-30 flex flex-col items-center gap-1 rounded-3xl bg-gradient-to-r from-lime-400 via-amber-300 to-orange-400 p-4 text-center shadow-[0_8px_0_rgba(0,0,0,0.35)]"
           >
             <div className="text-2xl font-extrabold text-grape-900">🎉 {ui.levelComplete}</div>
+            <div data-testid="points-earned" className="text-lg font-extrabold text-grape-900">
+              🪙 {format(ui.pointsEarned, { points: String(sessionPoints) })}
+            </div>
+            <p className="text-sm font-bold text-grape-800">
+              {ui.totalPoints}: ⭐ {totalScore.toLocaleString()}
+            </p>
             <p className="text-sm font-bold text-grape-800">
               {ui.unlockedHeroes} · {ui.exploreHint}
             </p>
@@ -110,7 +133,14 @@ export function GameBoard({ levelId, shuffle }: GameBoardProps) {
         </>
       )}
 
-      <CharacterModal character={modalCharacter} onClose={closeModal} />
+      <CharacterModal character={modalCharacter} match={modalMatch} onClose={closeModal} />
+
+      {!modalCharacter && collectionQueue.length > 0 && (
+        <CollectionCelebration
+          collectionId={collectionQueue[0]}
+          onClose={() => setCollectionQueue((q) => q.slice(1))}
+        />
+      )}
     </div>
   );
 }

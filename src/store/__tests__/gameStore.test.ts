@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { useGameStore, isLevelUnlocked, currentLevelId } from '../gameStore';
+import {
+  useGameStore,
+  isLevelUnlocked,
+  currentLevelId,
+  collectionMembers,
+  COLLECTION_BONUS,
+} from '../gameStore';
 import { TOTAL_LEVELS } from '../../data/levels';
 
 describe('gameStore', () => {
@@ -66,6 +72,85 @@ describe('gameStore', () => {
     });
   });
 
+  describe('positive-only scoring', () => {
+    it('starts at 0 and accumulates through addPoints', () => {
+      expect(useGameStore.getState().totalScore).toBe(0);
+      useGameStore.getState().addPoints(150);
+      useGameStore.getState().addPoints(50);
+      expect(useGameStore.getState().totalScore).toBe(200);
+    });
+
+    it('ignores non-positive input — the total can never go down', () => {
+      useGameStore.getState().addPoints(100);
+      useGameStore.getState().addPoints(0);
+      useGameStore.getState().addPoints(-9999);
+      expect(useGameStore.getState().totalScore).toBe(100);
+    });
+
+    it('loads legacy saves without score fields as 0 / empty', async () => {
+      localStorage.setItem(
+        'history-heroes-storage',
+        JSON.stringify({
+          state: { language: 'he', completedLevels: [1], unlockedStickers: ['einstein'] },
+          version: 0,
+        }),
+      );
+      await useGameStore.persist.rehydrate();
+      const state = useGameStore.getState();
+      expect(state.totalScore).toBe(0);
+      expect(state.completedCollections).toEqual([]);
+      expect(state.completedLevels).toEqual([1]);
+    });
+  });
+
+  describe('collection bonuses', () => {
+    const inventors = collectionMembers('inventors');
+    const women = collectionMembers('women');
+
+    it('defines four 20-member collections', () => {
+      expect(inventors).toHaveLength(20);
+      expect(collectionMembers('leaders')).toHaveLength(20);
+      expect(collectionMembers('athletes')).toHaveLength(20);
+      expect(women).toHaveLength(20);
+    });
+
+    it('pays +500 exactly once, when the last sticker of a collection unlocks', () => {
+      // curie is also a woman: leave her out so 'inventors' completes alone
+      for (const id of inventors.filter((id) => id !== 'edison' && id !== 'curie')) {
+        expect(useGameStore.getState().unlockSticker(id)).toEqual([]);
+      }
+      expect(useGameStore.getState().unlockSticker('curie')).toEqual([]);
+      const scoreBefore = useGameStore.getState().totalScore;
+
+      expect(useGameStore.getState().unlockSticker('edison')).toEqual(['inventors']);
+      const state = useGameStore.getState();
+      expect(state.completedCollections).toEqual(['inventors']);
+      expect(state.totalScore).toBe(scoreBefore + COLLECTION_BONUS);
+    });
+
+    it('pays both bonuses when one unlock completes two collections at once', () => {
+      // unlock everything in inventors + women except curie (member of both)
+      for (const id of new Set([...inventors, ...women])) {
+        if (id !== 'curie') useGameStore.getState().unlockSticker(id);
+      }
+      const scoreBefore = useGameStore.getState().totalScore;
+
+      expect(useGameStore.getState().unlockSticker('curie')).toEqual(['inventors', 'women']);
+      const state = useGameStore.getState();
+      expect(state.completedCollections).toEqual(['inventors', 'women']);
+      expect(state.totalScore).toBe(scoreBefore + 2 * COLLECTION_BONUS);
+    });
+
+    it('never re-awards a collection, even on redundant unlocks', () => {
+      for (const id of inventors) useGameStore.getState().unlockSticker(id);
+      const scoreAfterAward = useGameStore.getState().totalScore;
+
+      expect(useGameStore.getState().unlockSticker('einstein')).toEqual([]);
+      expect(useGameStore.getState().totalScore).toBe(scoreAfterAward);
+      expect(useGameStore.getState().completedCollections).toEqual(['inventors']);
+    });
+  });
+
   describe('language', () => {
     it('defaults to English and can switch to Hebrew', () => {
       expect(useGameStore.getState().language).toBe('en');
@@ -87,6 +172,7 @@ describe('gameStore', () => {
       useGameStore.getState().completeLevel(1);
       useGameStore.getState().unlockSticker('einstein');
       useGameStore.getState().setLanguage('he');
+      useGameStore.getState().addPoints(150);
       useGameStore.getState().navigate({ name: 'album' });
 
       const raw = localStorage.getItem('history-heroes-storage');
@@ -95,6 +181,8 @@ describe('gameStore', () => {
       expect(persisted.completedLevels).toEqual([1]);
       expect(persisted.unlockedStickers).toEqual(['einstein']);
       expect(persisted.language).toBe('he');
+      expect(persisted.totalScore).toBe(150);
+      expect(persisted.completedCollections).toEqual([]);
       expect(persisted.screen).toBeUndefined();
     });
   });

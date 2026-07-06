@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import type { CategoryId, Character } from '../types';
+import type { CategoryId, Character, MatchEvent, MatchTier, UiStrings } from '../types';
 import { Modal } from './Modal';
 import { useGameStore } from '../store/gameStore';
 import { getUi } from '../i18n';
@@ -13,8 +13,36 @@ const BADGE_BY_CATEGORY: Record<CategoryId, string> = {
   athletes: 'from-lime-300 to-emerald-500 ring-lime-200',
 };
 
+/** Bigger tier ⇒ bigger, sparklier ribbon; the smallest tier still celebrates. */
+const TIER_RIBBON: Record<
+  MatchTier,
+  { labelKey: keyof UiStrings; emoji: string; style: string; scale: number }
+> = {
+  lucky: {
+    labelKey: 'luckyMatch',
+    emoji: '🍀✨',
+    style: 'bg-gradient-to-r from-amber-300 to-orange-400 text-grape-900',
+    scale: 1.08,
+  },
+  memory: {
+    labelKey: 'memoryMatch',
+    emoji: '🧠⭐',
+    style: 'bg-gradient-to-r from-sky-300 to-blue-400 text-sky-950',
+    scale: 1,
+  },
+  match: {
+    labelKey: 'niceMatch',
+    emoji: '🎈',
+    style: 'bg-gradient-to-r from-lime-300 to-emerald-400 text-lime-950',
+    scale: 1,
+  },
+};
+
 interface CharacterModalProps {
   character: Character | null;
+  /** The match that just revealed this character — shows the "+points" tier
+      ribbon under the portrait. Omit for free exploration / album views. */
+  match?: MatchEvent | null;
   onClose: () => void;
 }
 
@@ -24,7 +52,7 @@ interface CharacterModalProps {
  * native sharing. The speaker button shows a spinner while the on-device
  * voice model is being prepared (first use downloads it).
  */
-export function CharacterModal({ character, onClose }: CharacterModalProps) {
+export function CharacterModal({ character, match = null, onClose }: CharacterModalProps) {
   const language = useGameStore((s) => s.language);
   const ui = getUi(language);
   const [voiceLoading, setVoiceLoading] = useState(false);
@@ -62,6 +90,19 @@ export function CharacterModal({ character, onClose }: CharacterModalProps) {
               {character.emoji}
             </span>
           </div>
+          {match && (
+            <motion.div
+              data-testid="match-banner"
+              initial={{ scale: 0, rotate: -10, opacity: 0 }}
+              animate={{ scale: TIER_RIBBON[match.tier].scale, rotate: -2, opacity: 1 }}
+              transition={{ type: 'spring', damping: 11, stiffness: 260, delay: 0.2 }}
+              className={`-my-1 flex items-center gap-2 rounded-full px-4 py-1.5 text-lg font-extrabold shadow-[0_4px_0_rgba(0,0,0,0.2)] ring-4 ring-white ${TIER_RIBBON[match.tier].style}`}
+            >
+              <span aria-hidden="true">{TIER_RIBBON[match.tier].emoji}</span>
+              <span>{ui[TIER_RIBBON[match.tier].labelKey]}</span>
+              <span className="rounded-full bg-white/50 px-2 py-0.5 text-base">+{match.points}</span>
+            </motion.div>
+          )}
           <h2 className="text-3xl font-extrabold text-grape-800">{locale.name}</h2>
           <p className="text-base leading-relaxed font-medium text-slate-600">{locale.bio}</p>
           <div className="flex items-center gap-3">

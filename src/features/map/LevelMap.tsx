@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { LEVELS } from '../../data/levels';
 import { useGameStore, currentLevelId, isLevelUnlocked } from '../../store/gameStore';
 import { getUi } from '../../i18n';
+import { ScoreChip } from '../../components/ScoreChip';
 import { MapNode, type NodeState } from './MapNode';
 
 /** Horizontal offsets forming a gentle winding candy trail. */
@@ -41,12 +42,15 @@ export function LevelMap() {
         <h1 className="text-xl font-extrabold text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">
           🗺️ {ui.appTitle}
         </h1>
-        <button
-          onClick={() => navigate({ name: 'album' })}
-          className="flex h-12 items-center gap-1 rounded-2xl bg-amber-300 px-3 text-sm font-extrabold text-amber-950 shadow-[0_4px_0_#b45309] active:translate-y-0.5 active:shadow-none"
-        >
-          📔 {ui.stickerAlbum}
-        </button>
+        <div className="flex items-center gap-2">
+          <ScoreChip />
+          <button
+            onClick={() => navigate({ name: 'album' })}
+            className="flex h-12 items-center gap-1 rounded-2xl bg-amber-300 px-3 text-sm font-extrabold text-amber-950 shadow-[0_4px_0_#b45309] active:translate-y-0.5 active:shadow-none"
+          >
+            📔 {ui.stickerAlbum}
+          </button>
+        </div>
       </header>
 
       <div className="min-h-0 flex-1 overflow-y-auto py-10" data-testid="level-map">

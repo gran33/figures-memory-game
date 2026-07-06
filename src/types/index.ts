@@ -53,6 +53,17 @@ export interface UiStrings {
   /** Template: {name} and {emoji} placeholders. */
   shareText: string;
   newStickerUnlocked: string;
+  luckyMatch: string;
+  memoryMatch: string;
+  niceMatch: string;
+  levelBonus: string;
+  /** Template: {points} placeholder. */
+  pointsEarned: string;
+  totalPoints: string;
+  /** Template: {collection} placeholder. */
+  collectionComplete: string;
+  /** Display name for the cross-category Women collection. */
+  womenHeroes: string;
 }
 
 export interface GameData {
@@ -74,6 +85,25 @@ export interface LevelConfig {
   pairs: number;
   /** Grid index of the static, un-flippable logo cell (3×3 boards only). */
   logoIndex?: number;
+}
+
+/** Sticker collections that pay a one-time bonus: the categories + cross-category Women. */
+export type CollectionId = CategoryId | 'women';
+
+/**
+ * Positive-only match tiers (docs/scoring-spec.md): decided by the second card
+ * of the turn — unseen means pure luck, seen-and-never-squandered means memory.
+ */
+export type MatchTier = 'lucky' | 'memory' | 'match';
+
+export interface MatchEvent {
+  /** Monotonic per-session key so the UI can re-trigger celebrations. */
+  id: number;
+  tier: MatchTier;
+  points: number;
+  characterId: string;
+  /** Collections this match's sticker completed (rare, extra celebration). */
+  completedCollections: CollectionId[];
 }
 
 export type CardStatus = 'down' | 'up' | 'matched';

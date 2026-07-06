@@ -32,7 +32,15 @@
       "mysteryHero": "Mystery Hero",
       "albumProgress": "heroes discovered",
       "shareText": "Look who is talking to me in my History Sticker Album! I unlocked {name}! {emoji}",
-      "newStickerUnlocked": "New sticker unlocked!"
+      "newStickerUnlocked": "New sticker unlocked!",
+      "luckyMatch": "Lucky find!",
+      "memoryMatch": "Amazing memory!",
+      "niceMatch": "You got it!",
+      "levelBonus": "Level bonus!",
+      "pointsEarned": "You earned +{points} points!",
+      "totalPoints": "Total points",
+      "collectionComplete": "You collected all the {collection}! 🏆",
+      "womenHeroes": "Women Heroes"
     },
     "he": {
       "appTitle": "גיבורי ההיסטוריה",
@@ -54,7 +62,15 @@
       "mysteryHero": "גיבור מסתורי",
       "albumProgress": "גיבורים שהתגלו",
       "shareText": "תראו מי מדבר איתי באלבום המדבקות שלי! פתחתי את {name}! {emoji}",
-      "newStickerUnlocked": "מדבקה חדשה נפתחה!"
+      "newStickerUnlocked": "מדבקה חדשה נפתחה!",
+      "luckyMatch": "איזה מזל!",
+      "memoryMatch": "איזה זיכרון מדהים!",
+      "niceMatch": "מצאתם את זה!",
+      "levelBonus": "בונוס שלב!",
+      "pointsEarned": "צברתם עוד {points} נקודות!",
+      "totalPoints": "סך כל הנקודות",
+      "collectionComplete": "השלמתם את האוסף: {collection}! 🏆",
+      "womenHeroes": "גיבורות"
     }
   },
   "categories": {

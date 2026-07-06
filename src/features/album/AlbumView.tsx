@@ -4,6 +4,7 @@ import { gameData, getUi } from '../../i18n';
 import { useGameStore } from '../../store/gameStore';
 import { StickerItem } from './StickerItem';
 import { CharacterModal } from '../../components/CharacterModal';
+import { ScoreChip } from '../../components/ScoreChip';
 
 const CATEGORY_ORDER: CategoryId[] = ['inventors', 'leaders', 'athletes'];
 
@@ -18,6 +19,7 @@ export function AlbumView() {
   const language = useGameStore((s) => s.language);
   const navigate = useGameStore((s) => s.navigate);
   const unlockedStickers = useGameStore((s) => s.unlockedStickers);
+  const completedCollections = useGameStore((s) => s.completedCollections);
   const ui = getUi(language);
   const [openCharacter, setOpenCharacter] = useState<Character | null>(null);
 
@@ -34,13 +36,24 @@ export function AlbumView() {
         <h1 className="text-2xl font-extrabold text-white drop-shadow-[0_2px_0_rgba(0,0,0,0.4)]">
           📔 {ui.stickerAlbum}
         </h1>
-        <div className="rounded-2xl bg-amber-300 px-3 py-1.5 text-sm font-extrabold text-amber-950 shadow-[0_3px_0_#b45309]">
-          {unlockedStickers.length}/{gameData.characters.length}
+        <div className="flex items-center gap-2">
+          <ScoreChip />
+          <div className="rounded-2xl bg-amber-300 px-3 py-1.5 text-sm font-extrabold text-amber-950 shadow-[0_3px_0_#b45309]">
+            {unlockedStickers.length}/{gameData.characters.length}
+          </div>
         </div>
       </header>
       <p className="pb-4 text-center text-sm font-bold text-white/60">
         ⭐ {unlockedStickers.length} {ui.albumProgress} ⭐
       </p>
+      {completedCollections.includes('women') && (
+        <p
+          data-testid="women-collection-badge"
+          className="pb-4 text-center text-sm font-extrabold text-amber-300"
+        >
+          🏆 {ui.womenHeroes}
+        </p>
+      )}
 
       <div className="mx-auto flex max-w-xl flex-col gap-6">
         {CATEGORY_ORDER.map((categoryId) => (
@@ -50,6 +63,9 @@ export function AlbumView() {
             >
               <span aria-hidden="true">{gameData.categories[categoryId].emoji}</span>
               <span>{gameData.categories[categoryId][language]}</span>
+              {completedCollections.includes(categoryId) && (
+                <span data-testid={`collection-badge-${categoryId}`}>🏆</span>
+              )}
             </h2>
             <div className="grid grid-cols-4 gap-3">
               {gameData.characters
